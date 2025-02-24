@@ -373,12 +373,12 @@
 
                 if (!userValue) {
                     allFilled = false;
-                    input.style.backgroundColor = "#fff"; // Reset empty cells
+                    input.style.backgroundColor = "#fff";
                 } else if (userValue !== correctValue) {
                     allCorrect = false;
-                    input.style.backgroundColor = "#ff9999"; // Wrong cells
+                    input.style.backgroundColor = "#ff9999";
                 } else {
-                    input.style.backgroundColor = "#7b9acc"; // Correct cells
+                    input.style.backgroundColor = "#7b9acc";
                 }
             });
 
@@ -388,8 +388,32 @@
             } else if (!allCorrect) {
                 showModal("Some answers are incorrect! Check the red cells.");
             } else {
-                showModal(`Victory, ${name}! You’ve mastered the odyssey!`);
+                recordWinner(name);
+                showModal(`Victory, ${name}! You’ve mastered the odyssey! Your name has been recorded.`);
             }
+        }
+
+        function recordWinner(name) {
+            // Get existing winners from localStorage or initialize an empty array
+            let winners = JSON.parse(localStorage.getItem("crosswordWinners")) || [];
+            
+            // Add new winner if not already present
+            if (!winners.includes(name)) {
+                winners.push(name);
+                localStorage.setItem("crosswordWinners", JSON.stringify(winners));
+            }
+
+            // Log for debugging
+            console.log("Current winners:", winners);
+
+            // Optional: Download as JSON file (manual trigger for now)
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(winners, null, 2));
+            const downloadAnchor = document.createElement("a");
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "crossword_winners.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            document.body.removeChild(downloadAnchor);
         }
 
         function showModal(message) {
