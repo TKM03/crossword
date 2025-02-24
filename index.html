@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company Crossword Odyssey</title>
     <style>
+        /* Your existing CSS remains unchanged */
         body {
             font-family: 'Georgia', serif;
             text-align: center;
@@ -285,11 +286,8 @@
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
         ];
 
-        // GitHub API configuration
-        const GITHUB_TOKEN = "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"; // Replace with your token
-        const REPO_OWNER = "TKM03"; // Your GitHub username
-        const REPO_NAME = "crossword"; // Your repository name
-        const FILE_PATH = "winners.txt"; // File path in your repo
+        // Backend endpoint (replace with your deployed backend URL)
+        const BACKEND_URL = "YOUR_BACKEND_URL/save-winner"; // e.g., "https://crossword-backend.onrender.com/save-winner"
 
         function checkPassword() {
             const name = document.getElementById("name-input").value.trim();
@@ -404,59 +402,30 @@
             if (!winners.includes(name)) {
                 winners.push(name);
                 localStorage.setItem("crosswordWinners", JSON.stringify(winners));
-                saveWinnerToGitHub(name); // Save to GitHub only
+                saveWinnerToBackend(name); // Send to backend
             }
             console.log("Current winners:", winners);
         }
 
-        async function saveWinnerToGitHub(name) {
+        async function saveWinnerToBackend(name) {
             try {
-                // Step 1: Get the current file content and SHA (if it exists)
-                const getUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
-                const getResponse = await fetch(getUrl, {
-                    method: "GET",
+                const response = await fetch(BACKEND_URL, {
+                    method: "POST",
                     headers: {
-                        "Authorization": `token ${GITHUB_TOKEN}`,
-                        "Accept": "application/vnd.github.v3+json"
-                    }
-                });
-
-                let sha = null;
-                let existingContent = "";
-                if (getResponse.ok) {
-                    const fileData = await getResponse.json();
-                    sha = fileData.sha;
-                    existingContent = atob(fileData.content); // Decode base64 content
-                }
-
-                // Step 2: Append the new winner's name
-                const newContent = existingContent ? `${existingContent}\n${name}` : name;
-                const encodedContent = btoa(newContent); // Encode to base64
-
-                // Step 3: Update or create the file
-                const putUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
-                const response = await fetch(putUrl, {
-                    method: "PUT",
-                    headers: {
-                        "Authorization": `token ${GITHUB_TOKEN}`,
-                        "Accept": "application/vnd.github.v3+json"
+                        "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({
-                        message: `Add winner: ${name}`,
-                        content: encodedContent,
-                        sha: sha // Include SHA if updating an existing file
-                    })
+                    body: JSON.stringify({ winner: name })
                 });
 
                 if (response.ok) {
-                    console.log(`Successfully saved ${name} to ${FILE_PATH}`);
+                    console.log(`Successfully sent ${name} to backend`);
                 } else {
                     const errorData = await response.json();
-                    console.error("GitHub API error:", errorData.message);
+                    console.error("Backend error:", errorData.message);
                     showModal("Failed to save your victory to the records!");
                 }
             } catch (error) {
-                console.error("Error saving to GitHub:", error);
+                console.error("Error contacting backend:", error);
                 showModal("An error occurred while recording your victory!");
             }
         }
