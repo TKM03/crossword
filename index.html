@@ -37,29 +37,29 @@
             justify-content: center;
             align-items: flex-start;
             width: 100%;
-            max-width: 1600px; /* Increased max-width for larger grid */
-            gap: 30px; /* Increased gap between elements */
+            max-width: 1800px; /* Adjusted for larger grid */
+            gap: 30px;
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(10, clamp(50px, 8vw, 80px)); /* Much larger cells */
-            gap: 6px; /* Increased gap */
+            grid-template-columns: repeat(16, clamp(40px, 5vw, 60px)); /* 16 columns */
+            gap: 4px;
             background: linear-gradient(135deg, #fefefe, #e6e6e6);
-            padding: 20px; /* Increased padding */
+            padding: 15px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             border: 4px solid #f4d35e;
-            order: 2; /* Center position */
+            order: 2;
         }
         .cell {
-            width: clamp(50px, 8vw, 80px); /* Much larger cells */
-            height: clamp(50px, 8vw, 80px); /* Much larger cells */
+            width: clamp(40px, 5vw, 60px);
+            height: clamp(40px, 5vw, 60px);
             border: 2px solid #2a4066;
             display: flex;
             align-items: center;
             justify-content: center;
             background: linear-gradient(145deg, #fefefe, #e6e6e6);
-            font-size: clamp(22px, 3vw, 30px); /* Larger font size */
+            font-size: clamp(18px, 2.5vw, 24px);
             font-weight: bold;
             border-radius: 5px;
             transition: transform 0.2s ease, box-shadow 0.3s ease;
@@ -79,7 +79,7 @@
             height: 100%;
             border: none;
             text-align: center;
-            font-size: clamp(22px, 3vw, 30px); /* Larger font size */
+            font-size: clamp(18px, 2.5vw, 24px);
             text-transform: uppercase;
             background: transparent;
             font-family: 'Georgia', serif;
@@ -98,9 +98,9 @@
         }
         .cell-number {
             position: absolute;
-            top: 4px; /* Adjusted for larger cells */
-            left: 4px; /* Adjusted for larger cells */
-            font-size: clamp(12px, 2vw, 16px); /* Larger number size */
+            top: 2px;
+            left: 2px;
+            font-size: clamp(10px, 1.5vw, 14px);
             color: #2a4066;
             font-weight: normal;
         }
@@ -154,7 +154,7 @@
                 align-items: center;
             }
             .grid {
-                grid-template-columns: repeat(10, 40px); /* Adjusted for smaller screens */
+                grid-template-columns: repeat(16, 30px); /* Adjusted for smaller screens */
             }
             .clues {
                 max-width: 90%;
@@ -195,24 +195,29 @@
     <script>
         let userName = "";
 
-        // Crossword grid layout (10x10) with some pre-filled letters
+        // Updated crossword grid layout (18x16)
         const crossword = [
-            ['#', '#', '#', '#', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#', 'Y', 'O', 'N', 'G', 'K', 'O', 'O', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['1', 'P', '#', '#', 'E', '#', '#', '#', '#', 'P', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['8', 'E', '#', '#', 'O', '#', '#', '#', '#', 'H', 'E', 'R', 'I', 'T', 'A', 'G', 'E', '#'],
-            ['8', 'W', '#', '#', 'K', '#', '#', '#', '#', 'W', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['5', 'T', '#', '#', 'F', '#', '#', '#', '#', 'T', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#', 'E', '#', '#', 'O', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#', 'R', '#', '#', 'H', '#', '#', '#', 'B', 'R', 'I', 'T', 'I', 'S', 'H', '#', '#', '#'],
-            ['#', 'S', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'A', '#', '#', '#', '#', '#', '#'], 
-            ['#', 'M', 'A', 'L', 'A', 'Y', 'S', 'I', 'A', '#', '#', 'B', '#', '#', '#', '#', '#', '#'],
-            ['#', 'I', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'L', '#', '#', '#', '#', '#', '#'],
-            ['#', 'T', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#'],
-            ['#', 'H', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'W', '#', '#', '#', '#', '#', '#'],
-            ['#', 'I', '#', '#', '#', '#', '#', '#', '#', '#', 'T', 'A', 'N', 'K', 'A', 'R', 'D', '#'],
-            ['#', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'R', '#', '#', '#', '#', '#', '#'],
-            ['#', 'G', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#']
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '1', 'Y', 'O', 'N', 'G', 'K', 'O', 'O', 'N', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '2', 'B', 'R', 'I', 'T', 'I', 'S', 'H', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '3', 'M', 'A', 'L', 'A', 'Y', 'S', 'I', 'A', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '4', 'H', 'E', 'R', 'I', 'T', 'A', 'G', 'E', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '5', 'T', 'A', 'N', 'K', 'A', 'R', 'D', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['1', 'N', 'G', 'E', 'O', 'K', 'F', 'O', 'H', '#', '#', '#', '#', '#', '#', '#'],
+            ['2', '1', '8', '8', '5', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['3', 'P', 'E', 'W', 'T', 'E', 'R', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['4', 'P', 'E', 'W', 'T', 'E', 'R', 'S', 'M', 'I', 'T', 'H', 'I', 'N', 'G', '#'],
+            ['5', 'T', 'A', 'B', 'L', 'E', 'W', 'A', 'R', 'E', '#', '#', '#', '#', '#', '#']
         ];
 
         const answers = {
@@ -221,16 +226,16 @@
         };
 
         const numberPositions = {
-            '1-horizontal': [1, 1],  // "YONGKOON"
-            '2-horizontal': [8, 7],  // "BRITISH"
-            '3-horizontal': [0, 9],  // "MALAYSIA"
-            '4-horizontal': [8, 3],  // "HERITAGE"
-            '5-horizontal': [10, 13],  // "TANKARD"
-            '1-vertical': [4, 0],    // "NGEOKFOH"
-            '2-vertical': [0, 2],    // "1885"
-            '3-vertical': [9, 2],    // "PEWTER"
-            '4-vertical': [1, 2],    // "PEWTERSMITHING"
-            '5-vertical': [11, 7],   // "TABLEWARE"
+            '1-horizontal': [1, 4],   // "YONGKOON" (row 1, col 4)
+            '2-horizontal': [5, 4],   // "BRITISH" (row 5, col 4)
+            '3-horizontal': [8, 4],   // "MALAYSIA" (row 8, col 4)
+            '4-horizontal': [11, 4],  // "HERITAGE" (row 11, col 4)
+            '5-horizontal': [14, 4],  // "TANKARD" (row 14, col 4)
+            '1-vertical': [16, 0],    // "NGEOKFOH" (row 16, col 0)
+            '2-vertical': [17, 0],    // "1885" (row 17, col 0)
+            '3-vertical': [18, 0],    // "PEWTER" (row 18, col 0)
+            '4-vertical': [19, 0],    // "PEWTERSMITHING" (row 19, col 0)
+            '5-vertical': [20, 0],    // "TABLEWARE" (row 20, col 0)
         };
 
         // Pre-filled cells (row, col, value)
@@ -249,8 +254,8 @@
             const grid = document.getElementById("answer-grid");
             grid.innerHTML = "";
 
-            for (let row = 0; row < 10; row++) {
-                for (let col = 0; col < 10; col++) {
+            for (let row = 0; row < 18; row++) { // 18 rows
+                for (let col = 0; col < 16; col++) { // 16 columns
                     const cell = document.createElement("div");
                     cell.classList.add("cell");
                     const value = crossword[row][col];
