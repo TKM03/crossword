@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Crossword Challenge</title>
+    <title>Company Crossword Quest</title>
     <style>
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
@@ -125,14 +125,14 @@
 </head>
 <body>
     <div id="password-container">
-        <h1>Unlock the Crossword Adventure!</h1>
-        <input type="password" id="password-input" placeholder="Enter the secret code">
-        <button onclick="checkPassword()">Open the Vault!</button>
+        <h1>Unlock the Crossword Quest!</h1>
+        <input type="text" id="password-input" placeholder="Enter the secret code (hint: 1234)"> <!-- Changed to text for visibility -->
+        <button onclick="checkPassword()">Crack the Code!</button>
         <p id="error-message"></p>
     </div>
 
     <div id="game-container">
-        <h1>Company Crossword Challenge</h1>
+        <h1>Company Crossword Quest</h1>
         <div class="grid" id="crossword-grid"></div>
         <div class="clues">
             <h3>Across</h3>
@@ -146,19 +146,17 @@
                3. Our biggest client (3 letters)<br>
                5. Founder's last name (5 letters)</p>
         </div>
-        <button id="check-button" onclick="checkAnswers()">Check My Answers!</button>
+        <button id="check-button" onclick="checkAnswers()">Check My Quest!</button>
     </div>
 
     <script>
-        const correctPassword = "1234"; // Password set to 1234
-        const correctAnswers = {
-            across: { 1: "XAI", 4: "NEIL", 6: "OMARK", 8: "HR" },
-            down: { 1: "1998", 2: "INCON", 3: "IAI", 5: "MUSK" }
-        };
+        const correctPassword = "1234"; // Password explicitly set to "1234"
 
         function checkPassword() {
-            const input = document.getElementById("password-input").value;
+            const input = document.getElementById("password-input").value.trim(); // Trim to remove accidental spaces
             const errorMessage = document.getElementById("error-message");
+            console.log("Entered password:", input); // Debugging: check this in browser console
+
             if (input === correctPassword) {
                 document.getElementById("password-container").classList.add("hidden");
                 setTimeout(() => {
@@ -166,10 +164,12 @@
                     document.getElementById("game-container").style.display = "block";
                     createGrid();
                 }, 500);
+                errorMessage.textContent = "Success! Welcome to the quest!";
+                errorMessage.style.color = "#6be6dd";
             } else {
-                errorMessage.textContent = "Oops! Wrong code, try again! Hint: It’s four digits!";
+                errorMessage.textContent = `Nope! You entered "${input}", but it’s not "1234". Try again!`;
                 errorMessage.style.opacity = "1";
-                setTimeout(() => { errorMessage.style.opacity = "0"; }, 2000);
+                setTimeout(() => { errorMessage.style.opacity = "0"; }, 3000);
             }
         }
 
@@ -235,7 +235,7 @@
                 }
             });
 
-            alert(allCorrect ? "Congrats! You’re a crossword master!" : "Not quite! Check the red cells and try again!");
+            alert(allCorrect ? "Epic win! You’ve conquered the crossword!" : "Close, but not yet! Fix the red cells!");
         }
     </script>
 </body>
