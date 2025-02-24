@@ -176,7 +176,6 @@
             font-size: clamp(14px, 2.5vw, 18px);
             font-family: 'Georgia', serif;
         }
-        /* Modal Styles */
         #modal {
             display: none;
             position: fixed;
@@ -264,7 +263,6 @@
         <button id="check-button" onclick="checkAnswers()">Submit</button>
     </div>
 
-    <!-- Modal for feedback -->
     <div id="modal-overlay"></div>
     <div id="modal">
         <p id="modal-message"></p>
@@ -272,8 +270,8 @@
     </div>
 
     <script>
-        const correctPassword = "1234"; // Password set to "1234"
-        let hintCount = 5; // Max 5 hints
+        const correctPassword = "1234";
+        let hintCount = 5;
         const solution = [
             ['X', 'A', 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
             [' ', ' ', 'N', 'E', 'I', 'L', ' ', ' ', ' ', ' '],
@@ -375,22 +373,22 @@
 
                 if (!userValue) {
                     allFilled = false;
-                    input.style.backgroundColor = "#fff";
+                    input.style.backgroundColor = "#fff"; // Reset empty cells
                 } else if (userValue !== correctValue) {
                     allCorrect = false;
-                    input.style.backgroundColor = "#ff9999";
+                    input.style.backgroundColor = "#ff9999"; // Wrong cells
                 } else {
-                    input.style.backgroundColor = "#7b9acc";
+                    input.style.backgroundColor = "#7b9acc"; // Correct cells
                 }
             });
 
             const name = localStorage.getItem("playerName");
             if (!allFilled) {
                 showModal("Please fill in all cells before submitting!");
-            } else if (allCorrect) {
-                showModal(`Victory, ${name}! You’ve mastered the odyssey!`);
+            } else if (!allCorrect) {
+                showModal("Some answers are incorrect! Check the red cells.");
             } else {
-                showModal("Not quite right! Correct the red cells and try again.");
+                showModal(`Victory, ${name}! You’ve mastered the odyssey!`);
             }
         }
 
@@ -405,7 +403,6 @@
             document.getElementById("modal-overlay").classList.remove("show");
         }
 
-        // Close modal when clicking outside
         document.getElementById("modal-overlay").addEventListener("click", closeModal);
     </script>
 </body>
