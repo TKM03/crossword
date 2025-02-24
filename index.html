@@ -286,7 +286,7 @@
         ];
 
         // GitHub API configuration
-        const GITHUB_TOKEN = "YOUR_PERSONAL_ACCESS_TOKEN"; // Replace with your token
+        const GITHUB_TOKEN = "Y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"; // Replace with your token
         const REPO_OWNER = "TKM03"; // Replace with your GitHub username
         const REPO_NAME = "crossword"; // Replace with your repository name (e.g., "crossword-odyssey")
         const FILE_PATH = "winners.txt"; // File path in your repo
@@ -408,14 +408,7 @@
             }
             console.log("Current winners:", winners);
 
-            // Optional: Trigger local JSON download
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(winners, null, 2));
-            const downloadAnchor = document.createElement("a");
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "crossword_winners.json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            document.body.removeChild(downloadAnchor);
+
         }
 
         async function saveWinnerToGitHub(name) {
