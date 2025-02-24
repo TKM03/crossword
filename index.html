@@ -100,8 +100,9 @@
             position: absolute;
             top: 2px;
             left: 2px;
-            font-size: clamp(8px, 1.5vw, 12px);
+            font-size: clamp(8px, 1.2vw, 12px);
             color: #2a4066;
+            font-weight: normal;
         }
         .clues {
             display: flex;
@@ -217,33 +218,23 @@
         const correctPassword = "1234";
         let hintCount = 5;
 
-        // Crossword grid layout (10x10) with example words
+        // Crossword grid layout (10x10)
         const crossword = [
-            ['#', '#', '#', '#', '1', 'A', 'B', 'C', '#', '#'], // Row 0
-            ['1', '9', '9', '0', '#', '#', '#', '#', '#', '#'], // Row 1
+            ['#', '#', '#', '#', '1', 'A', 'B', 'C', '#', '#'], // Row 0 (Across 1: "ABC")
+            ['1', '9', '9', '0', '#', '#', '#', '#', '#', '#'], // Row 1 (Down 1: "1990")
             ['#', 'P', '#', '#', '#', '#', '#', '#', '#', '#'], // Row 2
-            ['2', 'A', 'R', 'I', 'S', '#', '#', '#', '#', '#'], // Row 3
-            ['#', 'R', '#', '#', '5', 'S', 'M', 'I', 'T', 'H'], // Row 4
-            ['#', 'I', '#', '4', 'J', 'O', 'H', 'N', '#', '#'], // Row 5
-            ['3', 'X', 'Y', 'Z', '#', '#', '#', '#', '#', '#'], // Row 6
-            ['#', '#', '#', '#', '6', 'W', 'I', 'D', 'G', 'E'], // Row 7
+            ['2', 'A', 'R', 'I', 'S', '#', '#', '#', '#', '#'], // Row 3 (Down 2: "PARIS")
+            ['#', 'R', '#', '#', '5', 'S', 'M', 'I', 'T', 'H'], // Row 4 (Down 5: "SMITH")
+            ['#', 'I', '#', '4', 'J', 'O', 'H', 'N', '#', '#'], // Row 5 (Across 4: "JOHN")
+            ['3', 'X', 'Y', 'Z', '#', '#', '#', '#', '#', '#'], // Row 6 (Down 3: "XYZ")
+            ['#', '#', '#', '#', '6', 'W', 'I', 'D', 'G', 'E'], // Row 7 (Across 6: "WIDGET")
             ['#', '#', '#', '#', '#', '#', '#', '#', '#', 'T'], // Row 8
-            ['#', '#', '#', '#', '8', 'S', 'A', 'L', 'E', 'S']  // Row 9
+            ['#', '#', '#', '#', '8', 'S', 'A', 'L', 'E', 'S']  // Row 9 (Across 8: "SALES")
         ];
 
         const answers = {
-            across: {
-                1: "ABC",
-                4: "JOHN",
-                6: "WIDGET",
-                8: "SALES"
-            },
-            down: {
-                1: "1990",
-                2: "PARIS",
-                3: "XYZ",
-                5: "SMITH"
-            }
+            across: { 1: "ABC", 4: "JOHN", 6: "WIDGET", 8: "SALES" },
+            down: { 1: "1990", 2: "PARIS", 3: "XYZ", 5: "SMITH" }
         };
 
         function checkPassword() {
@@ -272,6 +263,17 @@
         function createGrid() {
             const grid = document.getElementById("crossword-grid");
             grid.innerHTML = "";
+            const numberPositions = {
+                '1-across': [0, 5], // Across 1: "ABC"
+                '1-down': [1, 0],   // Down 1: "1990"
+                '2-down': [3, 1],   // Down 2: "PARIS"
+                '3-down': [6, 0],   // Down 3: "XYZ"
+                '4-across': [5, 4], // Across 4: "JOHN"
+                '5-down': [4, 5],   // Down 5: "SMITH"
+                '6-across': [7, 5], // Across 6: "WIDGET"
+                '8-across': [9, 5]  // Across 8: "SALES"
+            };
+
             for (let row = 0; row < 10; row++) {
                 for (let col = 0; col < 10; col++) {
                     const cell = document.createElement("div");
@@ -280,17 +282,21 @@
 
                     if (value === '#') {
                         cell.classList.add("black");
-                    } else if (!isNaN(value)) {
-                        const numberSpan = document.createElement("span");
-                        numberSpan.classList.add("cell-number");
-                        numberSpan.textContent = value;
-                        cell.appendChild(numberSpan);
-                        const input = document.createElement("input");
-                        input.maxLength = 1;
-                        input.dataset.row = row;
-                        input.dataset.col = col;
-                        cell.appendChild(input);
                     } else {
+                        let number = null;
+                        for (const key in numberPositions) {
+                            const [numRow, numCol] = numberPositions[key];
+                            if (row === numRow && col === numCol) {
+                                number = key.split('-')[0];
+                                break;
+                            }
+                        }
+                        if (number) {
+                            const numberSpan = document.createElement("span");
+                            numberSpan.classList.add("cell-number");
+                            numberSpan.textContent = number;
+                            cell.appendChild(numberSpan);
+                        }
                         const input = document.createElement("input");
                         input.maxLength = 1;
                         input.dataset.row = row;
