@@ -232,7 +232,7 @@
 </head>
 <body>
     <div id="password-container">
-        <h1>Embark on the Crossword Odyssey</h1>
+        <h1>Welcome to the Crossword Puzzle</h1>
         <input type="text" id="name-input" placeholder="Enter your name">
         <input type="password" id="password-input" placeholder="Enter the key">
         <button onclick="checkPassword()">Unlock the Journey</button>
@@ -240,7 +240,7 @@
     </div>
 
     <div id="game-container">
-        <h1 id="welcome-title">Company Crossword Odyssey</h1>
+        <h1 id="welcome-title">Crossword Puzzle</h1>
         <div class="grid" id="crossword-grid"></div>
         <div class="clues">
             <div>
@@ -298,7 +298,7 @@
                     return;
                 }
                 localStorage.setItem("playerName", name);
-                errorMessage.textContent = "Key accepted! The odyssey begins...";
+                errorMessage.textContent = "Key accepted! The puzzle begins...";
                 errorMessage.style.color = "#7b9acc";
                 document.getElementById("password-container").classList.add("hidden");
                 setTimeout(() => {
