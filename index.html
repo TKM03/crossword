@@ -37,29 +37,29 @@
             justify-content: center;
             align-items: flex-start;
             width: 100%;
-            max-width: 1800px; /* Adjusted for larger grid */
-            gap: 30px;
+            max-width: 1600px; /* Adjusted for 20x20 grid */
+            gap: 20px;
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(16, clamp(40px, 5vw, 60px)); /* 16 columns */
-            gap: 4px;
+            grid-template-columns: repeat(20, clamp(30px, 4vw, 50px)); /* 20 columns, moderate size */
+            gap: 3px;
             background: linear-gradient(135deg, #fefefe, #e6e6e6);
-            padding: 15px;
+            padding: 10px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             border: 4px solid #f4d35e;
             order: 2;
         }
         .cell {
-            width: clamp(40px, 5vw, 60px);
-            height: clamp(40px, 5vw, 60px);
+            width: clamp(30px, 4vw, 50px);
+            height: clamp(30px, 4vw, 50px);
             border: 2px solid #2a4066;
             display: flex;
             align-items: center;
             justify-content: center;
             background: linear-gradient(145deg, #fefefe, #e6e6e6);
-            font-size: clamp(18px, 2.5vw, 24px);
+            font-size: clamp(14px, 2vw, 20px);
             font-weight: bold;
             border-radius: 5px;
             transition: transform 0.2s ease, box-shadow 0.3s ease;
@@ -79,7 +79,7 @@
             height: 100%;
             border: none;
             text-align: center;
-            font-size: clamp(18px, 2.5vw, 24px);
+            font-size: clamp(14px, 2vw, 20px);
             text-transform: uppercase;
             background: transparent;
             font-family: 'Georgia', serif;
@@ -100,7 +100,7 @@
             position: absolute;
             top: 2px;
             left: 2px;
-            font-size: clamp(10px, 1.5vw, 14px);
+            font-size: clamp(8px, 1.2vw, 12px);
             color: #2a4066;
             font-weight: normal;
         }
@@ -154,7 +154,7 @@
                 align-items: center;
             }
             .grid {
-                grid-template-columns: repeat(16, 30px); /* Adjusted for smaller screens */
+                grid-template-columns: repeat(20, 25px); /* Adjusted for smaller screens */
             }
             .clues {
                 max-width: 90%;
@@ -195,29 +195,28 @@
     <script>
         let userName = "";
 
-        // Updated crossword grid layout (18x16)
+        // Updated crossword grid layout (20x20)
         const crossword = [
-            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#', '#', '#', '#', '1', 'Y', 'O', 'N', 'G', 'K', 'O', 'O', 'N', '#', '#', '#'],
-            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#', '#', '#', '#', '2', 'B', 'R', 'I', 'T', 'I', 'S', 'H', '#', '#', '#', '#'],
-            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#', '#', '#', '#', '3', 'M', 'A', 'L', 'A', 'Y', 'S', 'I', 'A', '#', '#', '#'],
-            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#', '#', '#', '#', '4', 'H', 'E', 'R', 'I', 'T', 'A', 'G', 'E', '#', '#', '#'],
-            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#', '#', '#', '#', '5', 'T', 'A', 'N', 'K', 'A', 'R', 'D', '#', '#', '#', '#'],
-            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['1', 'N', 'G', 'E', 'O', 'K', 'F', 'O', 'H', '#', '#', '#', '#', '#', '#', '#'],
-            ['2', '1', '8', '8', '5', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['3', 'P', 'E', 'W', 'T', 'E', 'R', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['4', 'P', 'E', 'W', 'T', 'E', 'R', 'S', 'M', 'I', 'T', 'H', 'I', 'N', 'G', '#'],
-            ['5', 'T', 'A', 'B', 'L', 'E', 'W', 'A', 'R', 'E', '#', '#', '#', '#', '#', '#']
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '1', 'Y', 'O', 'N', 'G', 'K', 'O', 'O', 'N', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '2', 'B', 'R', 'I', 'T', 'I', 'S', 'H', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '3', 'M', 'A', 'L', 'A', 'Y', 'S', 'I', 'A', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '4', 'H', 'E', 'R', 'I', 'T', 'A', 'G', 'E', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '5', 'T', 'A', 'N', 'K', 'A', 'R', 'D', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['1', 'N', 'G', 'E', 'O', 'K', 'F', 'O', 'H', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['2', '1', '8', '8', '5', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['3', 'P', 'E', 'W', 'T', 'E', 'R', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['4', 'P', 'E', 'W', 'T', 'E', 'R', 'S', 'M', 'I', 'T', 'H', 'I', 'N', 'G', '#', '#', '#', '#', '#'],
+            ['5', 'T', 'A', 'B', 'L', 'E', 'W', 'A', 'R', 'E', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#']
         ];
 
         const answers = {
@@ -227,15 +226,15 @@
 
         const numberPositions = {
             '1-horizontal': [1, 4],   // "YONGKOON" (row 1, col 4)
-            '2-horizontal': [5, 4],   // "BRITISH" (row 5, col 4)
-            '3-horizontal': [8, 4],   // "MALAYSIA" (row 8, col 4)
-            '4-horizontal': [11, 4],  // "HERITAGE" (row 11, col 4)
-            '5-horizontal': [14, 4],  // "TANKARD" (row 14, col 4)
-            '1-vertical': [16, 0],    // "NGEOKFOH" (row 16, col 0)
-            '2-vertical': [17, 0],    // "1885" (row 17, col 0)
-            '3-vertical': [18, 0],    // "PEWTER" (row 18, col 0)
-            '4-vertical': [19, 0],    // "PEWTERSMITHING" (row 19, col 0)
-            '5-vertical': [20, 0],    // "TABLEWARE" (row 20, col 0)
+            '2-horizontal': [4, 4],   // "BRITISH" (row 4, col 4)
+            '3-horizontal': [7, 4],   // "MALAYSIA" (row 7, col 4)
+            '4-horizontal': [10, 4],  // "HERITAGE" (row 10, col 4)
+            '5-horizontal': [13, 4],  // "TANKARD" (row 13, col 4)
+            '1-vertical': [15, 0],    // "NGEOKFOH" (row 15, col 0)
+            '2-vertical': [16, 0],    // "1885" (row 16, col 0)
+            '3-vertical': [17, 0],    // "PEWTER" (row 17, col 0)
+            '4-vertical': [18, 0],    // "PEWTERSMITHING" (row 18, col 0)
+            '5-vertical': [19, 0],    // "TABLEWARE" (row 19, col 0)
         };
 
         // Pre-filled cells (row, col, value)
@@ -254,8 +253,8 @@
             const grid = document.getElementById("answer-grid");
             grid.innerHTML = "";
 
-            for (let row = 0; row < 18; row++) { // 18 rows
-                for (let col = 0; col < 16; col++) { // 16 columns
+            for (let row = 0; row < 20; row++) { // 20 rows
+                for (let col = 0; col < 20; col++) { // 20 columns
                     const cell = document.createElement("div");
                     cell.classList.add("cell");
                     const value = crossword[row][col];
