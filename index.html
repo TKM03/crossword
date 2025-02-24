@@ -176,13 +176,14 @@
             border: 2px solid #f4d35e;
             font-size: clamp(14px, 2.5vw, 18px);
             font-family: 'Georgia', serif;
+            box-sizing: border-box;
         }
     </style>
 </head>
 <body>
     <div id="password-container">
         <h1>Welcome to the Crossword Puzzle</h1>
-        <input type="text" id="name-input" placeholder="Enter your name">
+        <input type="text" id="name-input" placeholder="Enter your name" maxlength="20">
         <input type="password" id="password-input" placeholder="Enter the key">
         <button onclick="checkPassword()">Unlock the Journey</button>
         <p id="error-message"></p>
@@ -210,13 +211,11 @@
         <button id="hint-button" onclick="giveHint()">Seek a Hint</button>
         <p id="hint-counter">Hints remaining: 5</p>
         <button id="check-button" onclick="checkAnswers()">Submit</button>
-        <p id="winner-display"></p>
     </div>
 
     <script>
         const correctPassword = "1234";
         let hintCount = 5;
-        let winnerName = "";
 
         function checkPassword() {
             const name = document.getElementById("name-input").value.trim();
@@ -243,6 +242,7 @@
 
         function createGrid() {
             const grid = document.getElementById("crossword-grid");
+            grid.innerHTML = "";
             for (let i = 0; i < 100; i++) {
                 const cell = document.createElement("div");
                 cell.classList.add("cell");
@@ -263,9 +263,7 @@
         }
 
         function checkAnswers() {
-            const name = document.getElementById("name-input").value.trim();
-            winnerName = name;
-            document.getElementById("winner-display").textContent = `Congratulations, ${winnerName}! You've completed the puzzle!`;
+            alert("Answers submitted! (Checking logic to be implemented)");
         }
     </script>
 </body>
