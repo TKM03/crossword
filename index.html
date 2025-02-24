@@ -210,11 +210,13 @@
         <button id="hint-button" onclick="giveHint()">Seek a Hint</button>
         <p id="hint-counter">Hints remaining: 5</p>
         <button id="check-button" onclick="checkAnswers()">Submit</button>
+        <p id="winner-display"></p>
     </div>
 
     <script>
         const correctPassword = "1234";
         let hintCount = 5;
+        let winnerName = "";
 
         function checkPassword() {
             const name = document.getElementById("name-input").value.trim();
@@ -261,7 +263,9 @@
         }
 
         function checkAnswers() {
-            alert("Answers submitted! (Checking logic to be implemented)");
+            const name = document.getElementById("name-input").value.trim();
+            winnerName = name;
+            document.getElementById("winner-display").textContent = `Congratulations, ${winnerName}! You've completed the puzzle!`;
         }
     </script>
 </body>
