@@ -152,19 +152,21 @@
             <div>
                 <h3>Horizontal</h3>
                 <p>
-                    1. Our company name (3 letters) - ABC<br>
-                    2. Founder's last name (5 letters) - SMITH<br>
-                    3. CEO's first name (4 letters) - JOHN<br>
-                    4. Our main product (6 letters) - WIDGET<br>
-                    5. Department with most employees (5 letters) - SALES
+                    1. Who founded Royal Selangor ? <br>
+                    2. What colonial group influenced Royal Selangor’s early products ? <br>
+                    3. In which country did Royal Selangor start ? <br>
+                    4. What inspires Royal Selangor’s designs ? <br>
+                    5. What is Royal Selangor’s signature drinkware ? 
                 </p>
             </div>
             <div>
                 <h3>Vertical</h3>
                 <p>
-                    1. Year founded (4 letters) - 1990<br>
-                    2. Headquarters city (5 letters) - PARIS<br>
-                    3. Our biggest client (3 letters) - XYZ
+                    1. What was Royal Selangor’s original shop name ? <br>
+                    2. When was Royal Selangor International Sdn Bhd founded ? <br>
+                    3. What material defines Royal Selangor? <br>
+                    4. What type of craftsmanship is Royal Selangor famous for ? <br>
+                    5. What type of decorative items does Royal Selangor make ? 
                 </p>
             </div>
         </div>
@@ -176,40 +178,45 @@
 
         // Crossword grid layout (10x10) with some pre-filled letters
         const crossword = [
-            ['#', '#', '#', '#', '#', 'A', 'B', 'C', '#', '#'], // Row 0 (Horizontal 1: "ABC" pre-filled)
-            ['#', '1', '#', '#', '#', '#', '#', '#', '#', '#'], // Row 1 (Vertical 1: "1990")
-            ['#', '9', '#', '#', '#', '#', '#', '#', '#', '#'], // Row 2
-            ['#', '9', '#', 'P', '#', '#', '#', '#', '#', '#'], // Row 3 (Vertical 2: "PARIS" with "P" pre-filled)
-            ['#', '0', '#', 'A', 'S', 'M', 'I', 'T', 'H', '#'], // Row 4 (Horizontal 2: "SMITH")
-            ['#', '#', '#', 'R', 'J', 'O', 'H', 'N', '#', '#'], // Row 5 (Horizontal 3: "JOHN")
-            ['#', '#', 'X', 'I', '#', '#', '#', '#', '#', '#'], // Row 6 (Vertical 3: "XYZ" with "X" pre-filled)
-            ['#', '#', 'Y', 'S', 'W', 'I', 'D', 'G', 'E', 'T'], // Row 7 (Horizontal 4: "WIDGET")
-            ['#', '#', 'Z', '#', '#', 'T', '#', '#', '#', '#'], // Row 8
-            ['#', '#', '#', '#', 'S', 'A', 'L', 'E', 'S', '#']  // Row 9 (Horizontal 5: "SALES" pre-filled)
+            ['#', '#', '#', '#', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', 'Y', 'O', 'N', 'G', 'K', 'O', 'O', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['1', 'P', '#', '#', 'E', '#', '#', '#', '#', 'P', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['8', 'E', '#', '#', 'O', '#', '#', '#', 'H', 'E', 'R', 'I', 'T', 'A', 'G', 'E', '#', '#'],
+            ['8', 'W', '#', '#', 'K', '#', '#', '#', '#', 'W', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['5', 'T', '#', '#', 'F', '#', '#', '#', '#', 'T', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', 'E', '#', '#', 'O', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#', 'R', '#', '#', 'H', '#', '#', '#', 'B', 'R', 'I', 'T', 'I', 'S', 'H', '#', '#', '#'],
+            ['#', 'S', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'A', '#', '#', '#', '#', '#', '#'], 
+            ['#', 'M', 'A', 'L', 'A', 'Y', 'S', 'I', 'A', '#', '#', 'B', '#', '#', '#', '#', '#', '#'],
+            ['#', 'I', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'L', '#', '#', '#', '#', '#', '#'],
+            ['#', 'T', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#'],
+            ['#', 'H', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'W', '#', '#', '#', '#', '#', '#'],
+            ['#', 'I', '#', '#', '#', '#', '#', '#', '#', '#', 'T', 'A', 'N', 'K', 'A', 'R', 'D', '#'],
+            ['#', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'R', '#', '#', '#', '#', '#', '#'],
+            ['#', 'G', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#']
         ];
 
         const answers = {
-            horizontal: { 1: "ABC", 2: "SMITH", 3: "JOHN", 4: "WIDGET", 5: "SALES" },
-            vertical: { 1: "1990", 2: "PARIS", 3: "XYZ" }
+            horizontal: { 1: "YONGKOON", 2: "BRITISH", 3: "MALAYSIA", 4: "HERITAGE", 5: "TANKARD" },
+            vertical: { 1: "NGEOKFOH", 2: "1885", 3: "PEWTER", 4: "PEWTERSMITHING", 5: "TABLEWARE" }
         };
 
         const numberPositions = {
-            '1-horizontal': [0, 5],  // "ABC"
-            '2-horizontal': [4, 4],  // "SMITH"
-            '3-horizontal': [5, 4],  // "JOHN"
-            '4-horizontal': [7, 4],  // "WIDGET"
-            '5-horizontal': [9, 4],  // "SALES"
-            '1-vertical': [1, 1],    // "1990"
-            '2-vertical': [3, 3],    // "PARIS"
-            '3-vertical': [6, 2]     // "XYZ"
+            '1-horizontal': [1, 1],  // "YONGKOON"
+            '2-horizontal': [8, 7],  // "SMITH"
+            '3-horizontal': [0, 9],  // "MALAYSIA"
+            '4-horizontal': [8, 3],  // "HERITAGE"
+            '5-horizontal': [10, 13],  // "TANKARD"
+            '1-vertical': [4, 0],    // "NGEOKFOH"
+            '2-vertical': [0, 2],    // "1885"
+            '3-vertical': [9, 2],    // "PEWTER"
+            '4-vertical': [1, 2],    // "PEWTERSMITHING"
+            '5-vertical': [11, 7],   // "TABLEWARE"
         };
 
         // Pre-filled cells (row, col, value)
         const preFilled = [
-            [0, 5, 'A'], [0, 6, 'B'], [0, 7, 'C'], // "ABC"
-            [3, 3, 'P'],                           // "PARIS"
-            [6, 2, 'X'],                           // "XYZ"
-            [9, 4, 'S'], [9, 5, 'A'], [9, 6, 'L'], [9, 7, 'E'], [9, 8, 'S'] // "SALES"
+  
         ];
 
         window.onload = function() {
