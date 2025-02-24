@@ -285,6 +285,12 @@
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
         ];
 
+        // GitHub API configuration
+        const GITHUB_TOKEN = "YOUR_PERSONAL_ACCESS_TOKEN"; // Replace with your token
+        const REPO_OWNER = "YOUR_GITHUB_USERNAME"; // Replace with your GitHub username
+        const REPO_NAME = "YOUR_REPOSITORY_NAME"; // Replace with your repository name (e.g., "crossword-odyssey")
+        const FILE_PATH = "winners.txt"; // File path in your repo
+
         function checkPassword() {
             const name = document.getElementById("name-input").value.trim();
             const input = document.getElementById("password-input").value.trim();
@@ -394,19 +400,15 @@
         }
 
         function recordWinner(name) {
-            // Get existing winners from localStorage or initialize an empty array
             let winners = JSON.parse(localStorage.getItem("crosswordWinners")) || [];
-            
-            // Add new winner if not already present
             if (!winners.includes(name)) {
                 winners.push(name);
                 localStorage.setItem("crosswordWinners", JSON.stringify(winners));
+                saveWinnerToGitHub(name); // Save to GitHub
             }
-
-            // Log for debugging
             console.log("Current winners:", winners);
 
-            // Optional: Download as JSON file (manual trigger for now)
+            // Optional: Trigger local JSON download
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(winners, null, 2));
             const downloadAnchor = document.createElement("a");
             downloadAnchor.setAttribute("href", dataStr);
@@ -414,6 +416,58 @@
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             document.body.removeChild(downloadAnchor);
+        }
+
+        async function saveWinnerToGitHub(name) {
+            try {
+                // Step 1: Get the current file content and SHA (if it exists)
+                const getUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
+                const getResponse = await fetch(getUrl, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `token ${GITHUB_TOKEN}`,
+                        "Accept": "application/vnd.github.v3+json"
+                    }
+                });
+
+                let sha = null;
+                let existingContent = "";
+                if (getResponse.ok) {
+                    const fileData = await getResponse.json();
+                    sha = fileData.sha;
+                    existingContent = atob(fileData.content); // Decode base64 content
+                }
+
+                // Step 2: Append the new winner's name
+                const newContent = existingContent ? `${existingContent}\n${name}` : name;
+                const encodedContent = btoa(newContent); // Encode to base64
+
+                // Step 3: Update or create the file
+                const putUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
+                const response = await fetch(putUrl, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `token ${GITHUB_TOKEN}`,
+                        "Accept": "application/vnd.github.v3+json"
+                    },
+                    body: JSON.stringify({
+                        message: `Add winner: ${name}`,
+                        content: encodedContent,
+                        sha: sha // Include SHA if updating an existing file
+                    })
+                });
+
+                if (response.ok) {
+                    console.log(`Successfully saved ${name} to ${FILE_PATH}`);
+                } else {
+                    const errorData = await response.json();
+                    console.error("GitHub API error:", errorData.message);
+                    showModal("Failed to save your victory to the records!");
+                }
+            } catch (error) {
+                console.error("Error saving to GitHub:", error);
+                showModal("An error occurred while recording your victory!");
+            }
         }
 
         function showModal(message) {
