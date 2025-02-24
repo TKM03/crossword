@@ -14,22 +14,7 @@
             color: #fff;
             overflow-x: auto;
         }
-        #password-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.6);
-            transition: opacity 0.8s ease;
-            padding: 20px;
-        }
-        #password-container.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
         #game-container {
-            display: none;
             padding: 20px;
             animation: slideIn 1s ease-out;
         }
@@ -96,6 +81,11 @@
             outline: none;
             border-radius: 5px;
         }
+        .cell input:disabled {
+            background: #7b9acc;
+            color: #fff;
+            cursor: not-allowed;
+        }
         .cell-number {
             position: absolute;
             top: 2px;
@@ -143,42 +133,6 @@
             background: #ffeb99;
             transform: translateY(-3px);
         }
-        #hint-button {
-            background: #ff6b6b;
-            color: #fff;
-        }
-        #hint-button:hover {
-            background: #ff8787;
-        }
-        #check-button {
-            background: #7b9acc;
-            color: #fff;
-        }
-        #check-button:hover {
-            background: #9ab2e0;
-        }
-        #error-message {
-            color: #f4d35e;
-            font-size: clamp(14px, 2.5vw, 18px);
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-            margin-top: 15px;
-        }
-        #hint-counter {
-            font-size: clamp(14px, 2vw, 18px);
-            color: #f4d35e;
-            margin: 10px;
-        }
-        input[type="text"], input[type="password"] {
-            padding: 10px;
-            margin: 10px;
-            width: 80%;
-            max-width: 300px;
-            border-radius: 5px;
-            border: 2px solid #f4d35e;
-            font-size: clamp(14px, 2.5vw, 18px);
-            font-family: 'Georgia', serif;
-            box-sizing: border-box;
-        }
         @media (max-width: 768px) {
             .grid {
                 grid-template-columns: repeat(10, 25px);
@@ -191,14 +145,6 @@
     </style>
 </head>
 <body>
-    <div id="password-container">
-        <h1>Welcome to the Crossword Puzzle</h1>
-        <input type="text" id="name-input" placeholder="Enter your name" maxlength="20">
-        <input type="password" id="password-input" placeholder="Enter the key">
-        <button onclick="checkPassword()">Unlock the Journey</button>
-        <p id="error-message"></p>
-    </div>
-
     <div id="game-container">
         <h1 id="welcome-title">Crossword Puzzle</h1>
         <div class="grid" id="answer-grid"></div>
@@ -222,27 +168,24 @@
                 </p>
             </div>
         </div>
-        <button id="hint-button" onclick="giveHint()">Seek a Hint</button>
-        <p id="hint-counter">Hints remaining: 5</p>
-        <button id="check-button" onclick="checkAnswers()">Submit</button>
+        <button onclick="submitAnswers()">Submit</button>
     </div>
 
     <script>
-        const correctPassword = "1234";
-        let hintCount = 5;
+        let userName = "";
 
-        // Updated crossword grid layout (10x10) with letters and black cells
+        // Crossword grid layout (10x10) with some pre-filled letters
         const crossword = [
-            ['#', '#', '#', '#', '#', 'A', 'B', 'C', '#', '#'], // Row 0 (Horizontal 1: "ABC")
-            ['#', '1', '#', '#', '#', '#', '#', '#', '#', '#'], // Row 1 (Vertical 1: "1990" starts)
+            ['#', '#', '#', '#', '#', 'A', 'B', 'C', '#', '#'], // Row 0 (Horizontal 1: "ABC" pre-filled)
+            ['#', '1', '#', '#', '#', '#', '#', '#', '#', '#'], // Row 1 (Vertical 1: "1990")
             ['#', '9', '#', '#', '#', '#', '#', '#', '#', '#'], // Row 2
-            ['#', '9', '#', 'P', '#', '#', '#', '#', '#', '#'], // Row 3 (Vertical 2: "PARIS" starts)
+            ['#', '9', '#', 'P', '#', '#', '#', '#', '#', '#'], // Row 3 (Vertical 2: "PARIS" with "P" pre-filled)
             ['#', '0', '#', 'A', 'S', 'M', 'I', 'T', 'H', '#'], // Row 4 (Horizontal 2: "SMITH")
             ['#', '#', '#', 'R', 'J', 'O', 'H', 'N', '#', '#'], // Row 5 (Horizontal 3: "JOHN")
-            ['#', '#', 'X', 'I', '#', 'I', '#', '#', '#', '#'], // Row 6 (Vertical 3: "XYZ" starts)
+            ['#', '#', 'X', 'I', '#', '#', '#', '#', '#', '#'], // Row 6 (Vertical 3: "XYZ" with "X" pre-filled)
             ['#', '#', 'Y', 'S', 'W', 'I', 'D', 'G', 'E', 'T'], // Row 7 (Horizontal 4: "WIDGET")
             ['#', '#', 'Z', '#', '#', 'T', '#', '#', '#', '#'], // Row 8
-            ['#', '#', '#', '#', 'S', 'A', 'L', 'E', 'S', '#']  // Row 9 (Horizontal 5: "SALES")
+            ['#', '#', '#', '#', 'S', 'A', 'L', 'E', 'S', '#']  // Row 9 (Horizontal 5: "SALES" pre-filled)
         ];
 
         const answers = {
@@ -250,44 +193,33 @@
             vertical: { 1: "1990", 2: "PARIS", 3: "XYZ" }
         };
 
-        // Define precise starting positions for clue numbers
         const numberPositions = {
-            '1-horizontal': [0, 5],  // Horizontal 1: "ABC" starts at (0, 5)
-            '2-horizontal': [4, 4],  // Horizontal 2: "SMITH" starts at (4, 4)
-            '3-horizontal': [5, 4],  // Horizontal 3: "JOHN" starts at (5, 4)
-            '4-horizontal': [7, 4],  // Horizontal 4: "WIDGET" starts at (7, 4)
-            '5-horizontal': [9, 4],  // Horizontal 5: "SALES" starts at (9, 4)
-            '1-vertical': [1, 1],    // Vertical 1: "1990" starts at (1, 1)
-            '2-vertical': [3, 3],    // Vertical 2: "PARIS" starts at (3, 3)
-            '3-vertical': [6, 2]     // Vertical 3: "XYZ" starts at (6, 2)
+            '1-horizontal': [0, 5],  // "ABC"
+            '2-horizontal': [4, 4],  // "SMITH"
+            '3-horizontal': [5, 4],  // "JOHN"
+            '4-horizontal': [7, 4],  // "WIDGET"
+            '5-horizontal': [9, 4],  // "SALES"
+            '1-vertical': [1, 1],    // "1990"
+            '2-vertical': [3, 3],    // "PARIS"
+            '3-vertical': [6, 2]     // "XYZ"
         };
 
-        function checkPassword() {
-            const name = document.getElementById("name-input").value.trim();
-            const input = document.getElementById("password-input").value.trim();
-            const errorMessage = document.getElementById("error-message");
+        // Pre-filled cells (row, col, value)
+        const preFilled = [
+            [0, 5, 'A'], [0, 6, 'B'], [0, 7, 'C'], // "ABC"
+            [3, 3, 'P'],                           // "PARIS"
+            [6, 2, 'X'],                           // "XYZ"
+            [9, 4, 'S'], [9, 5, 'A'], [9, 6, 'L'], [9, 7, 'E'], [9, 8, 'S'] // "SALES"
+        ];
 
-            if (input === correctPassword) {
-                if (!name) {
-                    errorMessage.textContent = "Please enter your name, adventurer!";
-                    return;
-                }
-                errorMessage.textContent = "Key accepted! The puzzle begins...";
-                document.getElementById("password-container").classList.add("hidden");
-                setTimeout(() => {
-                    document.getElementById("password-container").style.display = "none";
-                    document.getElementById("game-container").style.display = "block";
-                    createGrids();
-                    document.getElementById("welcome-title").textContent = `Welcome, ${name}, to the Crossword Odyssey!`;
-                }, 800);
-            } else {
-                errorMessage.textContent = `Alas! "${input}" isn’t the key. Hint: It’s "1234"!`;
+        window.onload = function() {
+            userName = prompt("Please enter your name to start the Crossword Odyssey:");
+            if (!userName || userName.trim() === "") {
+                userName = "Anonymous";
             }
-        }
-
-        function createGrids() {
+            document.getElementById("welcome-title").textContent = `Welcome, ${userName}, to the Crossword Odyssey!`;
             createAnswerGrid();
-        }
+        };
 
         function createAnswerGrid() {
             const grid = document.getElementById("answer-grid");
@@ -306,7 +238,7 @@
                         for (const key in numberPositions) {
                             const [numRow, numCol] = numberPositions[key];
                             if (row === numRow && col === numCol) {
-                                number = key.split('-')[0]; // Extract just the number (e.g., "1" from "1-horizontal")
+                                number = key.split('-')[0];
                                 break;
                             }
                         }
@@ -320,6 +252,14 @@
                         input.maxLength = 1;
                         input.dataset.row = row;
                         input.dataset.col = col;
+
+                        // Check if this cell should be pre-filled
+                        const isPreFilled = preFilled.some(([r, c, v]) => r === row && c === col);
+                        if (isPreFilled) {
+                            const preFilledValue = preFilled.find(([r, c]) => r === row && c === col)[2];
+                            input.value = preFilledValue;
+                            input.disabled = true; // Disable pre-filled cells
+                        }
                         cell.appendChild(input);
                     }
                     grid.appendChild(cell);
@@ -327,39 +267,38 @@
             }
         }
 
-        function giveHint() {
-            if (hintCount <= 0) {
-                alert("No more hints left!");
-                return;
-            }
+        function submitAnswers() {
             const inputs = document.querySelectorAll("#answer-grid .cell input");
-            const emptyInputs = Array.from(inputs).filter(input => !input.value);
-            if (emptyInputs.length > 0) {
-                const randomInput = emptyInputs[Math.floor(Math.random() * emptyInputs.length)];
-                const row = parseInt(randomInput.dataset.row);
-                const col = parseInt(randomInput.dataset.col);
-                randomInput.value = crossword[row][col];
-                hintCount--;
-                document.getElementById("hint-counter").textContent = `Hints remaining: ${hintCount}`;
-            }
-        }
+            let userAnswers = "";
+            let isCorrect = true;
 
-        function checkAnswers() {
-            const inputs = document.querySelectorAll("#answer-grid .cell input");
-            let correct = true;
             inputs.forEach(input => {
                 const row = parseInt(input.dataset.row);
                 const col = parseInt(input.dataset.col);
-                const userValue = input.value.toUpperCase();
+                const userValue = input.value.toUpperCase() || "";
                 const correctValue = crossword[row][col];
-                if (userValue && userValue !== correctValue && isNaN(correctValue)) {
-                    correct = false;
-                    input.style.background = "#ff6b6b"; // Highlight incorrect
-                } else if (userValue === correctValue) {
-                    input.style.background = "#7b9acc"; // Highlight correct
+                userAnswers += `${row},${col}:${userValue};`;
+                if (userValue && userValue !== correctValue && !input.disabled) {
+                    isCorrect = false;
                 }
             });
-            alert(correct ? "Congratulations! All answers are correct!" : "Some answers are incorrect. Keep trying!");
+
+            // Mock Google Form submission (replace with actual Google Form URL and field IDs)
+            const formUrl = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse";
+            const formData = new FormData();
+            formData.append("entry.123456789", userName); // Replace with actual field ID for name
+            formData.append("entry.987654321", userAnswers); // Replace with actual field ID for answers
+            formData.append("entry.456789123", isCorrect ? "Correct" : "Incorrect"); // Replace with actual field ID for correctness
+
+            fetch(formUrl, {
+                method: "POST",
+                mode: "no-cors",
+                body: formData
+            }).then(() => {
+                alert("Your answers have been submitted! Thank you for playing.");
+            }).catch(() => {
+                alert("Submission failed. Please try again.");
+            });
         }
     </script>
 </body>
