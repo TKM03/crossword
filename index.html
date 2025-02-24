@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company Crossword Odyssey</title>
     <style>
-        /* Your existing CSS remains unchanged */
         body {
             font-family: 'Georgia', serif;
             text-align: center;
@@ -286,8 +285,9 @@
             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
         ];
 
-        // Backend endpoint (replace with your deployed backend URL)
-        const BACKEND_URL = "YOUR_BACKEND_URL/save-winner"; // e.g., "https://crossword-backend.onrender.com/save-winner"
+        // GitHub Actions workflow dispatch endpoint
+        const DISPATCH_URL = "https://api.github.com/repos/TKM03/crossword/actions/workflows/save-winner.yml/dispatches";
+        const GITHUB_TOKEN = "YOUR_PERSONAL_ACCESS_TOKEN"; // Replace with your PAT with repo and workflow scopes
 
         function checkPassword() {
             const name = document.getElementById("name-input").value.trim();
@@ -402,30 +402,37 @@
             if (!winners.includes(name)) {
                 winners.push(name);
                 localStorage.setItem("crosswordWinners", JSON.stringify(winners));
-                saveWinnerToBackend(name); // Send to backend
+                triggerGitHubWorkflow(name); // Trigger GitHub Actions
             }
             console.log("Current winners:", winners);
         }
 
-        async function saveWinnerToBackend(name) {
+        async function triggerGitHubWorkflow(name) {
             try {
-                const response = await fetch(BACKEND_URL, {
+                const response = await fetch(DISPATCH_URL, {
                     method: "POST",
                     headers: {
+                        "Authorization": `token ${GITHUB_TOKEN}`,
+                        "Accept": "application/vnd.github.v3+json",
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ winner: name })
+                    body: JSON.stringify({
+                        ref: "main", // Branch to trigger the workflow on
+                        inputs: {
+                            winner: name
+                        }
+                    })
                 });
 
                 if (response.ok) {
-                    console.log(`Successfully sent ${name} to backend`);
+                    console.log(`Successfully triggered workflow for ${name}`);
                 } else {
                     const errorData = await response.json();
-                    console.error("Backend error:", errorData.message);
+                    console.error("GitHub API error:", errorData.message);
                     showModal("Failed to save your victory to the records!");
                 }
             } catch (error) {
-                console.error("Error contacting backend:", error);
+                console.error("Error triggering workflow:", error);
                 showModal("An error occurred while recording your victory!");
             }
         }
