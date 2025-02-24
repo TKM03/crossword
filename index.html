@@ -213,7 +213,7 @@
         ];
 
         window.onload = function() {
-            userName = prompt("Please enter your name to start the Crossword Odyssey:");
+            userName = prompt("Please enter your name to start the Crossword :");
             if (!userName || userName.trim() === "") {
                 userName = "Anonymous";
             }
@@ -284,7 +284,7 @@
             });
 
             // Mock Google Form submission (replace with actual Google Form URL and field IDs)
-            const formUrl = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse";
+            const formUrl = "https://docs.google.com/spreadsheets/d/1ad-DkKtK_dl95xUu1DkPlG9wYSxl_KHrj13ApiLfobY/edit?gid=0#gid=0";
             const formData = new FormData();
             formData.append("entry.123456789", userName); // Replace with actual field ID for name
             formData.append("entry.987654321", userAnswers); // Replace with actual field ID for answers
