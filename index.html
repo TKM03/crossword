@@ -3,85 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Crossword Puzzle</title>
+    <title>Company Crossword Challenge</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             text-align: center;
-            margin-top: 20px;
-            background-color: #f0f0f0;
+            margin: 0;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            min-height: 100vh;
+            color: #fff;
         }
         #password-container {
-            display: block;
-            margin: 50px auto;
-            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            transition: opacity 0.5s ease;
+        }
+        #password-container.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
         #game-container {
             display: none;
-            max-width: 800px;
-            margin: 0 auto;
+            padding: 20px;
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px #333;
+            color: #ffe66d;
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(10, 40px);
-            gap: 1px;
+            grid-template-columns: repeat(10, 45px);
+            gap: 2px;
             margin: 20px auto;
             width: fit-content;
+            background: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         .cell {
-            width: 40px;
-            height: 40px;
-            border: 1px solid #333;
+            width: 45px;
+            height: 45px;
+            border: 2px solid #333;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #fff;
-            font-size: 16px;
-            text-transform: uppercase;
+            background-color: #f9f9f9;
+            font-size: 18px;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+        .cell:hover {
+            transform: scale(1.1);
         }
         .cell.black {
-            background-color: #000;
+            background-color: #333;
+            border: none;
         }
         .cell input {
             width: 100%;
             height: 100%;
             border: none;
             text-align: center;
-            font-size: 16px;
+            font-size: 18px;
             text-transform: uppercase;
-            padding: 0;
+            background: transparent;
+            font-family: inherit;
+        }
+        .cell input:focus {
+            background: #ffe66d;
+            outline: none;
         }
         .clues {
             text-align: left;
-            margin-top: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            color: #333;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
         }
         button {
-            padding: 10px 20px;
-            margin-top: 10px;
-            background-color: #4CAF50;
+            padding: 12px 25px;
+            margin: 10px;
+            background: #ff6b6b;
             color: white;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s, transform 0.2s;
         }
         button:hover {
-            background-color: #45a049;
+            background: #ff8787;
+            transform: translateY(-2px);
         }
         #error-message {
-            color: red;
+            color: #ffe66d;
+            font-size: 1.2em;
+            text-shadow: 1px 1px 3px #000;
             margin-top: 10px;
+            transition: opacity 0.5s;
+        }
+        #check-button {
+            background: #4ecdc4;
+        }
+        #check-button:hover {
+            background: #6be6dd;
         }
     </style>
 </head>
 <body>
     <div id="password-container">
-        <h2>Enter Password</h2>
-        <input type="password" id="password-input" placeholder="Password">
-        <button onclick="checkPassword()">Submit</button>
+        <h1>Unlock the Crossword Adventure!</h1>
+        <input type="password" id="password-input" placeholder="Enter the secret code">
+        <button onclick="checkPassword()">Open the Vault!</button>
         <p id="error-message"></p>
     </div>
 
     <div id="game-container">
-        <h2>Company Crossword Puzzle</h2>
+        <h1>Company Crossword Challenge</h1>
         <div class="grid" id="crossword-grid"></div>
         <div class="clues">
             <h3>Across</h3>
@@ -95,25 +146,35 @@
                3. Our biggest client (3 letters)<br>
                5. Founder's last name (5 letters)</p>
         </div>
+        <button id="check-button" onclick="checkAnswers()">Check My Answers!</button>
     </div>
 
     <script>
-        const correctPassword = "1234"; // Password changed to 1234
+        const correctPassword = "1234"; // Password set to 1234
+        const correctAnswers = {
+            across: { 1: "XAI", 4: "NEIL", 6: "OMARK", 8: "HR" },
+            down: { 1: "1998", 2: "INCON", 3: "IAI", 5: "MUSK" }
+        };
 
         function checkPassword() {
             const input = document.getElementById("password-input").value;
+            const errorMessage = document.getElementById("error-message");
             if (input === correctPassword) {
-                document.getElementById("password-container").style.display = "none";
-                document.getElementById("game-container").style.display = "block";
-                createGrid();
+                document.getElementById("password-container").classList.add("hidden");
+                setTimeout(() => {
+                    document.getElementById("password-container").style.display = "none";
+                    document.getElementById("game-container").style.display = "block";
+                    createGrid();
+                }, 500);
             } else {
-                document.getElementById("error-message").textContent = "Wrong password, try again!";
+                errorMessage.textContent = "Oops! Wrong code, try again! Hint: It’s four digits!";
+                errorMessage.style.opacity = "1";
+                setTimeout(() => { errorMessage.style.opacity = "0"; }, 2000);
             }
         }
 
         function createGrid() {
             const grid = document.getElementById("crossword-grid");
-            // 10x10 grid layout (spaces are black cells)
             const layout = [
                 ['X', 'A', 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
                 [' ', ' ', 'N', 'E', 'I', 'L', ' ', ' ', ' ', ' '],
@@ -136,11 +197,45 @@
                     } else {
                         const input = document.createElement("input");
                         input.maxLength = 1;
+                        input.dataset.row = row;
+                        input.dataset.col = col;
                         div.appendChild(input);
                     }
                     grid.appendChild(div);
                 }
             }
+        }
+
+        function checkAnswers() {
+            const inputs = document.querySelectorAll(".cell input");
+            let allCorrect = true;
+            const solution = [
+                ['X', 'A', 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                [' ', ' ', 'N', 'E', 'I', 'L', ' ', ' ', ' ', ' '],
+                ['1', '9', '9', '8', ' ', ' ', ' ', ' ', ' ', ' '],
+                [' ', ' ', 'C', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                [' ', ' ', 'O', 'M', 'A', 'R', 'K', ' ', ' ', ' '],
+                [' ', ' ', 'N', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                [' ', ' ', 'H', 'R', ' ', ' ', ' ', ' ', ' ', ' '],
+                [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+            ];
+
+            inputs.forEach(input => {
+                const row = parseInt(input.dataset.row);
+                const col = parseInt(input.dataset.col);
+                const userValue = input.value.toUpperCase();
+                const correctValue = solution[row][col];
+                if (userValue && userValue !== correctValue) {
+                    input.style.backgroundColor = "#ff8787";
+                    allCorrect = false;
+                } else if (userValue) {
+                    input.style.backgroundColor = "#6be6dd";
+                }
+            });
+
+            alert(allCorrect ? "Congrats! You’re a crossword master!" : "Not quite! Check the red cells and try again!");
         }
     </script>
 </body>
