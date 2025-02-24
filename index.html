@@ -286,9 +286,9 @@
         ];
 
         // GitHub API configuration
-        const GITHUB_TOKEN = "Y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"; // Replace with your token
-        const REPO_OWNER = "TKM03"; // Replace with your GitHub username
-        const REPO_NAME = "crossword"; // Replace with your repository name (e.g., "crossword-odyssey")
+        const GITHUB_TOKEN = ""; // Replace with your token
+        const REPO_OWNER = "TKM03"; // Your GitHub username
+        const REPO_NAME = "crossword"; // Your repository name
         const FILE_PATH = "winners.txt"; // File path in your repo
 
         function checkPassword() {
@@ -404,11 +404,9 @@
             if (!winners.includes(name)) {
                 winners.push(name);
                 localStorage.setItem("crosswordWinners", JSON.stringify(winners));
-                saveWinnerToGitHub(name); // Save to GitHub
+                saveWinnerToGitHub(name); // Save to GitHub only
             }
             console.log("Current winners:", winners);
-
-
         }
 
         async function saveWinnerToGitHub(name) {
