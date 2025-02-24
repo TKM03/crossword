@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Crossword Puzzle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #password-container {
+            display: block;
+        }
+        #game-container {
+            display: none;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 40px);
+            gap: 2px;
+            margin: 20px auto;
+            width: fit-content;
+        }
+        .cell {
+            width: 40px;
+            height: 40px;
+            border: 1px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+        }
+        .cell.black {
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="password-container">
+        <h2>Enter Password</h2>
+        <input type="password" id="password-input" placeholder="Password">
+        <button onclick="checkPassword()">Submit</button>
+        <p id="error-message" style="color: red;"></p>
+    </div>
+
+    <div id="game-container">
+        <h2>Company Crossword Puzzle</h2>
+        <div class="grid" id="crossword-grid">
+            <!-- Grid will be filled by JavaScript -->
+        </div>
+        <p>Clues: <br> Across: 1. Our company name (5 letters) <br> Down: 1. CEO's first name (3 letters)</p>
+    </div>
+
+    <script>
+        const correctPassword = "CompanyPuzzle2023"; // Change this as needed
+
+        function checkPassword() {
+            const input = document.getElementById("password-input").value;
+            if (input === correctPassword) {
+                document.getElementById("password-container").style.display = "none";
+                document.getElementById("game-container").style.display = "block";
+                createGrid();
+            } else {
+                document.getElementById("error-message").textContent = "Wrong password, try again!";
+            }
+        }
+
+        function createGrid() {
+            const grid = document.getElementById("crossword-grid");
+            // Simple 5x5 crossword example: "XAI" down, "XAIIS" across
+            const layout = [
+                [' ', 'X', ' ', ' ', ' '],
+                [' ', 'A', ' ', ' ', ' '],
+                ['X', 'I', 'I', 'S', ' '],
+                [' ', ' ', ' ', ' ', ' '],
+                [' ', ' ', ' ', ' ', ' ']
+            ];
+            for (let row of layout) {
+                for (let cell of row) {
+                    const div = document.createElement("div");
+                    div.className = "cell";
+                    if (cell === ' ') div.classList.add("black");
+                    else div.textContent = ""; // Empty for players to fill
+                    grid.appendChild(div);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
