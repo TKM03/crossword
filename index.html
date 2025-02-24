@@ -15,7 +15,7 @@
             overflow-x: auto;
         }
         #game-container {
-            padding: 20px;
+            padding: 15px; /* Reduced padding */
             animation: slideIn 1s ease-out;
             display: flex;
             flex-direction: column;
@@ -26,42 +26,42 @@
             to { transform: translateY(0); opacity: 1; }
         }
         h1 {
-            font-size: 2.5em;
+            font-size: 2em; /* Reduced size */
             font-family: 'Playfair Display', serif;
             color: #f4d35e;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Reduced margin */
         }
         .content-wrapper {
             display: flex;
             justify-content: center;
             align-items: flex-start;
             width: 100%;
-            max-width: 1600px; /* Adjusted for 20x20 grid */
-            gap: 20px;
+            max-width: 1200px; /* Reduced max-width */
+            gap: 15px; /* Reduced gap */
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(20, clamp(30px, 4vw, 50px)); /* 20 columns, moderate size */
-            gap: 3px;
+            grid-template-columns: repeat(20, clamp(20px, 3vw, 35px)); /* Smaller cells */
+            gap: 2px; /* Reduced gap */
             background: linear-gradient(135deg, #fefefe, #e6e6e6);
-            padding: 10px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border: 4px solid #f4d35e;
+            padding: 8px; /* Reduced padding */
+            border-radius: 10px; /* Smaller radius */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 3px solid #f4d35e; /* Thinner border */
             order: 2;
         }
         .cell {
-            width: clamp(30px, 4vw, 50px);
-            height: clamp(30px, 4vw, 50px);
-            border: 2px solid #2a4066;
+            width: clamp(20px, 3vw, 35px);
+            height: clamp(20px, 3vw, 35px);
+            border: 1px solid #2a4066; /* Thinner border */
             display: flex;
             align-items: center;
             justify-content: center;
             background: linear-gradient(145deg, #fefefe, #e6e6e6);
-            font-size: clamp(14px, 2vw, 20px);
+            font-size: clamp(10px, 1.5vw, 16px); /* Smaller font */
             font-weight: bold;
-            border-radius: 5px;
+            border-radius: 3px; /* Smaller radius */
             transition: transform 0.2s ease, box-shadow 0.3s ease;
             position: relative;
         }
@@ -79,7 +79,7 @@
             height: 100%;
             border: none;
             text-align: center;
-            font-size: clamp(14px, 2vw, 20px);
+            font-size: clamp(10px, 1.5vw, 16px);
             text-transform: uppercase;
             background: transparent;
             font-family: 'Georgia', serif;
@@ -89,7 +89,7 @@
             background: #f4d35e;
             color: #fff;
             outline: none;
-            border-radius: 5px;
+            border-radius: 3px;
         }
         .cell input:disabled {
             background: #7b9acc;
@@ -98,55 +98,96 @@
         }
         .cell-number {
             position: absolute;
-            top: 2px;
-            left: 2px;
-            font-size: clamp(8px, 1.2vw, 12px);
+            top: 1px; /* Adjusted for smaller cells */
+            left: 1px;
+            font-size: clamp(6px, 1vw, 10px); /* Smaller numbers */
             color: #2a4066;
             font-weight: normal;
         }
         .clues {
             display: flex;
             flex-direction: column;
-            max-width: 300px;
+            max-width: 250px; /* Reduced width */
             background: rgba(255, 255, 255, 0.95);
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            padding: 10px; /* Reduced padding */
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
             color: #2a4066;
-            font-size: clamp(14px, 2vw, 18px);
+            font-size: clamp(12px, 1.8vw, 16px); /* Smaller font */
         }
         .clues.horizontal {
-            order: 1; /* Left position */
+            order: 1;
         }
         .clues.vertical {
-            order: 3; /* Right position */
+            order: 3;
         }
         .clues div {
-            margin-bottom: 15px;
+            margin-bottom: 10px; /* Reduced margin */
         }
         .clues h3 {
             font-family: 'Playfair Display', serif;
             color: #f4d35e;
-            margin-bottom: 10px;
-            border-bottom: 2px solid #2a4066;
-            padding-bottom: 5px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #2a4066; /* Thinner border */
+            padding-bottom: 3px;
+            font-size: 1.2em; /* Smaller heading */
         }
         button {
-            padding: 12px 25px;
-            margin: 10px;
+            padding: 8px 20px; /* Smaller button */
+            margin: 8px;
             background: #f4d35e;
             color: #2a4066;
             border: none;
-            border-radius: 25px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: clamp(14px, 2vw, 18px);
+            font-size: clamp(12px, 1.8vw, 16px);
             font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             transition: background 0.3s, transform 0.2s;
         }
         button:hover {
             background: #ffeb99;
-            transform: translateY(-3px);
+            transform: translateY(-2px);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 15px; /* Reduced padding */
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 250px; /* Smaller modal */
+        }
+        .modal-content h2 {
+            font-family: 'Playfair Display', serif;
+            color: #2a4066;
+            margin-bottom: 10px;
+            font-size: 1.5em; /* Smaller heading */
+        }
+        .modal-content input {
+            width: 80%;
+            padding: 8px; /* Smaller input */
+            margin-bottom: 10px;
+            border: 2px solid #2a4066;
+            border-radius: 5px;
+            font-size: 14px; /* Smaller font */
+            font-family: 'Georgia', serif;
+        }
+        .modal-content button {
+            background: #f4d35e;
+            padding: 8px 15px; /* Smaller button */
+            font-size: 14px;
         }
         @media (max-width: 768px) {
             .content-wrapper {
@@ -154,11 +195,11 @@
                 align-items: center;
             }
             .grid {
-                grid-template-columns: repeat(20, 25px); /* Adjusted for smaller screens */
+                grid-template-columns: repeat(20, 20px); /* Even smaller for mobile */
             }
             .clues {
                 max-width: 90%;
-                font-size: 14px;
+                font-size: 12px;
             }
         }
     </style>
@@ -192,10 +233,17 @@
         <button onclick="submitAnswers()">Submit</button>
     </div>
 
+    <div id="nameModal" class="modal">
+        <div class="modal-content">
+            <h2>Enter Your Name</h2>
+            <input type="text" id="userNameInput" placeholder="Your name here">
+            <button onclick="submitName()">Start Playing</button>
+        </div>
+    </div>
+
     <script>
         let userName = "";
 
-        // Updated crossword grid layout (20x20)
         const crossword = [
             ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
             ['#', '#', '#', '#', '1', 'Y', 'O', 'N', 'G', 'K', 'O', 'O', 'N', '#', '#', '#', '#', '#', '#', '#'],
@@ -237,24 +285,38 @@
             '5-vertical': [19, 0],    // "TABLEWARE" (row 19, col 0)
         };
 
-        // Pre-filled cells (row, col, value)
         const preFilled = [];
 
         window.onload = function() {
-            userName = prompt("Please enter your name to start the Crossword:");
-            if (!userName || userName.trim() === "") {
-                userName = "Anonymous";
-            }
-            document.getElementById("welcome-title").textContent = `Welcome, ${userName}, to the Crossword Odyssey!`;
-            createAnswerGrid();
+            showNameModal();
         };
+
+        function showNameModal() {
+            const modal = document.getElementById("nameModal");
+            modal.style.display = "flex";
+            document.getElementById("userNameInput").focus();
+        }
+
+        function submitName() {
+            const input = document.getElementById("userNameInput").value.trim();
+            userName = input === "" ? "Anonymous" : input;
+            document.getElementById("welcome-title").textContent = `Welcome, ${userName}, to the Crossword Odyssey!`;
+            document.getElementById("nameModal").style.display = "none";
+            createAnswerGrid();
+        }
+
+        document.getElementById("userNameInput")?.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                submitName();
+            }
+        });
 
         function createAnswerGrid() {
             const grid = document.getElementById("answer-grid");
             grid.innerHTML = "";
 
-            for (let row = 0; row < 20; row++) { // 20 rows
-                for (let col = 0; col < 20; col++) { // 20 columns
+            for (let row = 0; row < 20; row++) {
+                for (let col = 0; col < 20; col++) {
                     const cell = document.createElement("div");
                     cell.classList.add("cell");
                     const value = crossword[row][col];
@@ -281,12 +343,11 @@
                         input.dataset.row = row;
                         input.dataset.col = col;
 
-                        // Check if this cell should be pre-filled
                         const isPreFilled = preFilled.some(([r, c, v]) => r === row && c === col);
                         if (isPreFilled) {
                             const preFilledValue = preFilled.find(([r, c]) => r === row && c === col)[2];
                             input.value = preFilledValue;
-                            input.disabled = true; // Disable pre-filled cells
+                            input.disabled = true;
                         }
                         cell.appendChild(input);
                     }
@@ -311,12 +372,12 @@
                 }
             });
 
-            // Mock Google Form submission (replace with actual Google Form URL and field IDs)
-            const formUrl = "https://docs.google.com/spreadsheets/d/1ad-DkKtK_dl95xUu1DkPlG9wYSxl_KHrj13ApiLfobY/edit?gid=0#gid=0";
+            // Note: Replace with actual Google Form URL and field names for B2, C2, D2
+            const formUrl = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"; // Replace with actual Form URL
             const formData = new FormData();
-            formData.append("B2", userName); // Replace with actual field ID for name
-            formData.append("B3", userAnswers); // Replace with actual field ID for answers
-            formData.append("B4", isCorrect ? "Correct" : "Incorrect"); // Replace with actual field ID for correctness
+            formData.append("entry.XXXXXXX", userName); // B2 - Replace "entry.XXXXXXX" with actual field ID for B2
+            formData.append("entry.YYYYYYY", userAnswers); // C2 - Replace "entry.YYYYYYY" with actual field ID for C2
+            formData.append("entry.ZZZZZZZ", isCorrect ? "Correct" : "Incorrect"); // D2 - Replace "entry.ZZZZZZZ" with actual field ID for D2
 
             fetch(formUrl, {
                 method: "POST",
