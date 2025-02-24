@@ -37,29 +37,29 @@
             justify-content: center;
             align-items: flex-start;
             width: 100%;
-            max-width: 1400px;
-            gap: 20px;
+            max-width: 1600px; /* Increased max-width for larger grid */
+            gap: 30px; /* Increased gap between elements */
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(10, clamp(40px, 6vw, 60px)); /* Increased size */
-            gap: 4px;
+            grid-template-columns: repeat(10, clamp(50px, 8vw, 80px)); /* Much larger cells */
+            gap: 6px; /* Increased gap */
             background: linear-gradient(135deg, #fefefe, #e6e6e6);
-            padding: 15px;
+            padding: 20px; /* Increased padding */
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             border: 4px solid #f4d35e;
             order: 2; /* Center position */
         }
         .cell {
-            width: clamp(40px, 6vw, 60px); /* Increased size */
-            height: clamp(40px, 6vw, 60px); /* Increased size */
+            width: clamp(50px, 8vw, 80px); /* Much larger cells */
+            height: clamp(50px, 8vw, 80px); /* Much larger cells */
             border: 2px solid #2a4066;
             display: flex;
             align-items: center;
             justify-content: center;
             background: linear-gradient(145deg, #fefefe, #e6e6e6);
-            font-size: clamp(18px, 2.5vw, 24px); /* Increased font size */
+            font-size: clamp(22px, 3vw, 30px); /* Larger font size */
             font-weight: bold;
             border-radius: 5px;
             transition: transform 0.2s ease, box-shadow 0.3s ease;
@@ -79,7 +79,7 @@
             height: 100%;
             border: none;
             text-align: center;
-            font-size: clamp(18px, 2.5vw, 24px); /* Increased font size */
+            font-size: clamp(22px, 3vw, 30px); /* Larger font size */
             text-transform: uppercase;
             background: transparent;
             font-family: 'Georgia', serif;
@@ -98,9 +98,9 @@
         }
         .cell-number {
             position: absolute;
-            top: 2px;
-            left: 2px;
-            font-size: clamp(10px, 1.5vw, 14px); /* Adjusted number size */
+            top: 4px; /* Adjusted for larger cells */
+            left: 4px; /* Adjusted for larger cells */
+            font-size: clamp(12px, 2vw, 16px); /* Larger number size */
             color: #2a4066;
             font-weight: normal;
         }
@@ -154,7 +154,7 @@
                 align-items: center;
             }
             .grid {
-                grid-template-columns: repeat(10, 35px); /* Adjusted for smaller screens */
+                grid-template-columns: repeat(10, 40px); /* Adjusted for smaller screens */
             }
             .clues {
                 max-width: 90%;
