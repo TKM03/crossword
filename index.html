@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company Crossword Odyssey</title>
     <style>
-        /* CSS styles */
         body {
             font-family: 'Georgia', serif;
             text-align: center;
@@ -69,6 +68,7 @@
             font-weight: bold;
             border-radius: 5px;
             transition: transform 0.2s ease, box-shadow 0.3s ease;
+            position: relative;
         }
         .cell:hover {
             transform: scale(1.05);
@@ -95,6 +95,13 @@
             color: #fff;
             outline: none;
             border-radius: 5px;
+        }
+        .cell-number {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            font-size: clamp(8px, 1.5vw, 12px);
+            color: #2a4066;
         }
         .clues {
             display: flex;
@@ -135,12 +142,6 @@
             background: #ffeb99;
             transform: translateY(-3px);
         }
-        button:disabled {
-            background: #cccccc;
-            color: #666666;
-            cursor: not-allowed;
-            transform: none;
-        }
         #hint-button {
             background: #ff6b6b;
             color: #fff;
@@ -160,7 +161,6 @@
             font-size: clamp(14px, 2.5vw, 18px);
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
             margin-top: 15px;
-            transition: opacity 0.5s;
         }
         #hint-counter {
             font-size: clamp(14px, 2vw, 18px);
@@ -195,17 +195,17 @@
         <div class="clues">
             <div>
                 <h3>Across</h3>
-                <p>1. Our company name (3 letters)<br>
-                   4. CEO's first name (4 letters)<br>
-                   6. Our main product (6 letters)<br>
-                   8. Department with most employees (4 letters)</p>
+                <p>1. Our company name (3 letters) - ABC<br>
+                   4. CEO's first name (4 letters) - JOHN<br>
+                   6. Our main product (6 letters) - WIDGET<br>
+                   8. Department with most employees (4 letters) - SALES</p>
             </div>
             <div>
                 <h3>Down</h3>
-                <p>1. Year founded (4 letters)<br>
-                   2. Headquarters city (5 letters)<br>
-                   3. Our biggest client (3 letters)<br>
-                   5. Founder's last name (5 letters)</p>
+                <p>1. Year founded (4 letters) - 1990<br>
+                   2. Headquarters city (5 letters) - PARIS<br>
+                   3. Our biggest client (3 letters) - XYZ<br>
+                   5. Founder's last name (5 letters) - SMITH</p>
             </div>
         </div>
         <button id="hint-button" onclick="giveHint()">Seek a Hint</button>
@@ -216,6 +216,35 @@
     <script>
         const correctPassword = "1234";
         let hintCount = 5;
+
+        // Crossword grid layout (10x10) with example words
+        const crossword = [
+            ['#', '#', '#', '#', '1', 'A', 'B', 'C', '#', '#'], // Row 0
+            ['1', '9', '9', '0', '#', '#', '#', '#', '#', '#'], // Row 1
+            ['#', 'P', '#', '#', '#', '#', '#', '#', '#', '#'], // Row 2
+            ['2', 'A', 'R', 'I', 'S', '#', '#', '#', '#', '#'], // Row 3
+            ['#', 'R', '#', '#', '5', 'S', 'M', 'I', 'T', 'H'], // Row 4
+            ['#', 'I', '#', '4', 'J', 'O', 'H', 'N', '#', '#'], // Row 5
+            ['3', 'X', 'Y', 'Z', '#', '#', '#', '#', '#', '#'], // Row 6
+            ['#', '#', '#', '#', '6', 'W', 'I', 'D', 'G', 'E'], // Row 7
+            ['#', '#', '#', '#', '#', '#', '#', '#', '#', 'T'], // Row 8
+            ['#', '#', '#', '#', '8', 'S', 'A', 'L', 'E', 'S']  // Row 9
+        ];
+
+        const answers = {
+            across: {
+                1: "ABC",
+                4: "JOHN",
+                6: "WIDGET",
+                8: "SALES"
+            },
+            down: {
+                1: "1990",
+                2: "PARIS",
+                3: "XYZ",
+                5: "SMITH"
+            }
+        };
 
         function checkPassword() {
             const name = document.getElementById("name-input").value.trim();
@@ -243,13 +272,33 @@
         function createGrid() {
             const grid = document.getElementById("crossword-grid");
             grid.innerHTML = "";
-            for (let i = 0; i < 100; i++) {
-                const cell = document.createElement("div");
-                cell.classList.add("cell");
-                const input = document.createElement("input");
-                input.maxLength = 1;
-                cell.appendChild(input);
-                grid.appendChild(cell);
+            for (let row = 0; row < 10; row++) {
+                for (let col = 0; col < 10; col++) {
+                    const cell = document.createElement("div");
+                    cell.classList.add("cell");
+                    const value = crossword[row][col];
+
+                    if (value === '#') {
+                        cell.classList.add("black");
+                    } else if (!isNaN(value)) {
+                        const numberSpan = document.createElement("span");
+                        numberSpan.classList.add("cell-number");
+                        numberSpan.textContent = value;
+                        cell.appendChild(numberSpan);
+                        const input = document.createElement("input");
+                        input.maxLength = 1;
+                        input.dataset.row = row;
+                        input.dataset.col = col;
+                        cell.appendChild(input);
+                    } else {
+                        const input = document.createElement("input");
+                        input.maxLength = 1;
+                        input.dataset.row = row;
+                        input.dataset.col = col;
+                        cell.appendChild(input);
+                    }
+                    grid.appendChild(cell);
+                }
             }
         }
 
@@ -258,12 +307,34 @@
                 alert("No more hints left!");
                 return;
             }
-            hintCount--;
-            document.getElementById("hint-counter").textContent = `Hints remaining: ${hintCount}`;
+            const inputs = document.querySelectorAll(".cell input");
+            const emptyInputs = Array.from(inputs).filter(input => !input.value);
+            if (emptyInputs.length > 0) {
+                const randomInput = emptyInputs[Math.floor(Math.random() * emptyInputs.length)];
+                const row = parseInt(randomInput.dataset.row);
+                const col = parseInt(randomInput.dataset.col);
+                randomInput.value = crossword[row][col];
+                hintCount--;
+                document.getElementById("hint-counter").textContent = `Hints remaining: ${hintCount}`;
+            }
         }
 
         function checkAnswers() {
-            alert("Answers submitted! (Checking logic to be implemented)");
+            const inputs = document.querySelectorAll(".cell input");
+            let correct = true;
+            inputs.forEach(input => {
+                const row = parseInt(input.dataset.row);
+                const col = parseInt(input.dataset.col);
+                const userValue = input.value.toUpperCase();
+                const correctValue = crossword[row][col];
+                if (userValue && userValue !== correctValue && isNaN(correctValue)) {
+                    correct = false;
+                    input.style.background = "#ff6b6b"; // Highlight incorrect
+                } else if (userValue === correctValue) {
+                    input.style.background = "#7b9acc"; // Highlight correct
+                }
+            });
+            alert(correct ? "Congratulations! All answers are correct!" : "Some answers are incorrect. Keep trying!");
         }
     </script>
 </body>
