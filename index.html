@@ -375,9 +375,9 @@
             // Note: Replace with actual Google Form URL and field names for B2, C2, D2
             const formUrl = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"; // Replace with actual Form URL
             const formData = new FormData();
-            formData.append("entry.XXXXXXX", userName); // B2 - Replace "entry.XXXXXXX" with actual field ID for B2
-            formData.append("entry.YYYYYYY", userAnswers); // C2 - Replace "entry.YYYYYYY" with actual field ID for C2
-            formData.append("entry.ZZZZZZZ", isCorrect ? "Correct" : "Incorrect"); // D2 - Replace "entry.ZZZZZZZ" with actual field ID for D2
+            formData.append(B2, userName); // B2 - Replace "entry.XXXXXXX" with actual field ID for B2
+            formData.append(C2, userAnswers); // C2 - Replace "entry.YYYYYYY" with actual field ID for C2
+            formData.append(D2, isCorrect ? "Correct" : "Incorrect"); // D2 - Replace "entry.ZZZZZZZ" with actual field ID for D2
 
             fetch(formUrl, {
                 method: "POST",
