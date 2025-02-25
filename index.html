@@ -283,14 +283,14 @@
         const numberPositions = {
             '1-horizontal': [2, 2],   // "YONGKOON"
             '2-horizontal': [8, 9],   // "BRITISH"
-            '3-horizontal': [10, 2],   // "MALAYSIA"
-            '4-horizontal': [4, 9],  // "HERITAGE"
-            '5-horizontal': [14, 11],  // "TANKARD"
-            '1-vertical': [6, 0],    // "NGEOKFOH"
-            '2-vertical': [2, 2],    // "1885"
+            '3-horizontal': [10, 2],  // "MALAYSIA"
+            '4-horizontal': [4, 9],   // "HERITAGE"
+            '5-horizontal': [14, 11], // "TANKARD"
+            '1-vertical': [6, 0],     // "NGEOKFOH"
+            '2-vertical': [2, 2],     // "1885"
             '3-vertical': [11, 2],    // "PEWTER"
-            '4-vertical': [3, 2],    // "PEWTERSMITHING"
-            '5-vertical': [7, 12],    // "TABLEWARE"
+            '4-vertical': [3, 2],     // "PEWTERSMITHING"
+            '5-vertical': [7, 12]    // "TABLEWARE"
         };
 
         const preFilled = [];
@@ -381,11 +381,11 @@
             });
 
             // Note: Replace with actual Google Form URL and field names for B2, C2, D2
-            const formUrl = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"; // Replace with actual Form URL
+            const formUrl = "https://docs.google.com/spreadsheets/d/1ad-DkKtK_dl95xUu1DkPlG9wYSxl_KHrj13ApiLfobY/edit?usp=sharing"; // Replace with actual Form URL
             const formData = new FormData();
-            formData.append(B2, userName); // B2 - Replace "entry.XXXXXXX" with actual field ID for B2
-            formData.append(C2, userAnswers); // C2 - Replace "entry.YYYYYYY" with actual field ID for C2
-            formData.append(D2, isCorrect ? "Correct" : "Incorrect"); // D2 - Replace "entry.ZZZZZZZ" with actual field ID for D2
+            formData.append("B2", userName); // B2 - Replace "entry.XXXXXXX" with actual field ID for B2
+            formData.append("C2", userAnswers); // C2 - Replace "entry.YYYYYYY" with actual field ID for C2
+            formData.append("D2", isCorrect ? "Correct" : "Incorrect"); // D2 - Replace "entry.ZZZZZZZ" with actual field ID for D2
 
             fetch(formUrl, {
                 method: "POST",
