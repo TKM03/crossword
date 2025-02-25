@@ -1,52 +1,54 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Crossword Odyssey</title>
+    <title>Royal Selangor 140th Anniversary Crossword</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Garamond', serif; /* Elegant, classic font */
             margin: 0;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background: linear-gradient(135deg, #4d4d4d, #8c8c8c); /* Pewter-inspired gradient */
             min-height: 100vh;
-            color: #333;
+            color: #2c2c2c;
             overflow-x: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
+            background-image: url('https://www.transparenttextures.com/patterns/metal.png'); /* Subtle pewter texture */
+            background-blend-mode: overlay;
         }
         #game-container {
-            padding: 20px;
-            background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.9); /* Slightly translucent white */
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             max-width: 1200px;
             width: 100%;
             margin: 20px;
-            animation: fadeIn 1s ease-out;
+            animation: fadeIn 1.5s ease-out;
+            border: 2px solid #d4af37; /* Gold accent for celebration */
         }
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         h1 {
-            font-size: 2.2em;
-            color: #1e3c72;
-            margin-bottom: 20px;
-            font-family: 'Roboto', sans-serif;
+            font-size: 2.5em;
+            color: #2c2c2c;
+            margin-bottom: 25px;
+            font-family: 'Cinzel', serif; /* Regal, anniversary-worthy font */
             font-weight: 700;
             text-align: center;
+            text-shadow: 1px 1px 3px rgba(212, 175, 55, 0.5); /* Gold glow */
         }
         .content-wrapper {
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            flex-wrap: wrap; /* Default to wrap, adjusted below for desktop */
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: 25px;
         }
-        /* Ensure horizontal layout on desktop */
         @media (min-width: 769px) {
             .content-wrapper {
                 flex-wrap: nowrap;
@@ -54,34 +56,35 @@
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(19, clamp(22px, 3.5vw, 32px));
-            gap: 3px;
-            background: #f5f6f5;
-            padding: 10px;
-            border-radius: 10px;
-            border: 2px solid #1e3c72;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            grid-template-columns: repeat(19, clamp(24px, 3.5vw, 34px));
+            gap: 4px;
+            background: #e0e0e0; /* Light pewter-like gray */
+            padding: 12px;
+            border-radius: 12px;
+            border: 3px solid #2c2c2c; /* Darker pewter edge */
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             order: 2;
         }
         .cell {
-            width: clamp(22px, 3.5vw, 32px);
-            height: clamp(22px, 3.5vw, 32px);
-            border: 1px solid #d1d5db;
+            width: clamp(24px, 3.5vw, 34px);
+            height: clamp(24px, 3.5vw, 34px);
+            border: 1px solid #a0a0a0;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #fff;
-            font-size: clamp(12px, 1.8vw, 16px);
+            background: #f5f5f5;
+            font-size: clamp(14px, 1.8vw, 18px);
             font-weight: 600;
-            border-radius: 4px;
+            border-radius: 5px;
             transition: all 0.2s ease;
             position: relative;
         }
         .cell:hover {
-            background: #e5e7eb;
+            background: #d4af37; /* Gold hover for festivity */
+            color: #fff;
         }
         .cell.black {
-            background: #1e3c72;
+            background: #2c2c2c; /* Dark pewter */
             border: none;
         }
         .cell input {
@@ -89,21 +92,21 @@
             height: 100%;
             border: none;
             text-align: center;
-            font-size: clamp(12px, 1.8vw, 16px);
+            font-size: clamp(14px, 1.8vw, 18px);
             text-transform: uppercase;
             background: transparent;
-            color: #1e3c72;
-            font-family: 'Arial', sans-serif;
+            color: #2c2c2c;
+            font-family: 'Garamond', serif;
         }
         .cell input:focus {
-            background: #2a5298;
+            background: #8c8c8c; /* Medium pewter */
             color: #fff;
             outline: none;
-            border-radius: 4px;
+            border-radius: 5px;
         }
         .cell input:disabled {
-            background: #d1d5db;
-            color: #4b5563;
+            background: #b0b0b0;
+            color: #4b4b4b;
             cursor: not-allowed;
         }
         .cell-number {
@@ -111,51 +114,56 @@
             top: 2px;
             left: 2px;
             font-size: clamp(8px, 1.2vw, 10px);
-            color: #4b5563;
-            font-weight: 400;
+            color: #d4af37; /* Gold numbers */
+            font-weight: 500;
         }
         .clues {
             flex: 1;
             min-width: 250px;
-            background: #f9fafb;
-            padding: 15px;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            color: #1e3c72;
-            font-size: 14px;
-            line-height: 1.6;
+            color: #2c2c2c;
+            font-size: 15px;
+            line-height: 1.7;
+            border-left: 4px solid #d4af37; /* Gold accent */
         }
         .clues.horizontal {
-            order: 1; /* Left position */
+            order: 1;
         }
         .clues.vertical {
-            order: 3; /* Right position */
+            order: 3;
         }
         .clues h3 {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Cinzel', serif;
             font-weight: 600;
-            color: #2a5298;
-            margin-bottom: 10px;
-            font-size: 1.3em;
-            border-bottom: 2px solid #1e3c72;
-            padding-bottom: 5px;
+            color: #d4af37; /* Gold for headers */
+            margin-bottom: 12px;
+            font-size: 1.4em;
+            border-bottom: 2px solid #2c2c2c;
+            padding-bottom: 6px;
         }
         button {
-            padding: 10px 25px;
-            margin-top: 20px;
-            background: #2a5298;
-            color: #fff;
+            padding: 12px 30px;
+            margin-top: 25px;
+            background: #d4af37; /* Gold button */
+            color: #2c2c2c;
             border: none;
             border-radius: 25px;
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-family: 'Cinzel', serif;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
         button:hover {
-            background: #1e3c72;
-            transform: translateY(-2px);
+            background: #b8860b; /* Darker gold */
+            transform: translateY(-3px);
         }
         .modal {
             display: none;
@@ -164,39 +172,41 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
         .modal-content {
             background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             text-align: center;
             width: 90%;
-            max-width: 350px;
+            max-width: 400px;
+            border: 2px solid #d4af37;
         }
         .modal-content h2 {
-            font-family: 'Roboto', sans-serif;
-            color: #1e3c72;
-            margin-bottom: 15px;
-            font-size: 1.8em;
+            font-family: 'Cinzel', serif;
+            color: #2c2c2c;
+            margin-bottom: 20px;
+            font-size: 2em;
             font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(212, 175, 55, 0.3);
         }
         .modal-content input {
             width: 80%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 2px solid #d1d5db;
-            border-radius: 5px;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #a0a0a0;
+            border-radius: 6px;
             font-size: 16px;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Garamond', serif;
         }
         .modal-content button {
-            background: #2a5298;
-            padding: 10px 20px;
+            background: #d4af37;
+            padding: 12px 25px;
             font-size: 16px;
         }
         @media (max-width: 768px) {
@@ -211,21 +221,21 @@
             .clues {
                 width: 100%;
                 max-width: none;
-                font-size: 13px;
+                font-size: 14px;
             }
             h1 {
-                font-size: 1.8em;
+                font-size: 2em;
             }
             button {
                 width: 100%;
-                max-width: 200px;
+                max-width: 220px;
             }
         }
     </style>
 </head>
 <body>
     <div id="game-container">
-        <h1 id="welcome-title">140 Years of Pewter Pride</h1>
+        <h1 id="welcome-title">Royal Selangor’s 140th Anniversary Crossword</h1>
         <div class="content-wrapper">
             <div class="clues horizontal">
                 <h3>Horizontal</h3>
@@ -257,189 +267,189 @@
                 </p>
             </div>
         </div>
-        <button onclick="submitAnswers()">Submit</button>
+        <button onclick="submitAnswers()">Celebrate & Submit</button>
     </div>
 
     <div id="nameModal" class="modal">
         <div class="modal-content">
-            <h2>Enter Your Name</h2>
+            <h2>Join the 140th Celebration</h2>
             <input type="text" id="userNameInput" placeholder="Your name here">
-            <button onclick="submitName()">Start Playing</button>
+            <button onclick="submitName()">Start Celebrating</button>
         </div>
     </div>
-<script>
-    let userName = "";
 
-    const crossword = [
-        ['#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-        ['#','#', '#', '#', '#', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-        ['#','#', 'Y', 'O', 'N', 'G', 'K', 'O', 'O', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-        ['#','1', 'P', '#', '#', 'E', '#', '#', '#', '#', 'P', '#', '#', '#', '#', '#', '#', '#', '#'],
-        ['#','8', 'E', '#', '#', 'O', '#', '#', '#', 'H', 'E', 'R', 'I', 'T', 'A', 'G', 'E', '#', '#'],
-        ['#','8', 'W', '#', '#', 'K', '#', '#', '#', '#', 'W', '#', '#', '#', '#', '#', '#', '#', '#'],
-        ['#','5', 'T', '#', '#', 'F', '#', '#', '#', '#', 'T', '#', '#', '#', '#', '#', '#', '#', '#'],
-        ['#','#', 'E', '#', '#', 'O', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#', '#', '#'],
-        ['#','#', 'R', '#', '#', 'H', '#', '#', '#', 'B', 'R', 'I', 'T', 'I', 'S', 'H', '#', '#', '#'],
-        ['#','#', 'S', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'A', '#', '#', '#', '#', '#', '#'], 
-        ['#','#', 'M', 'A', 'L', 'A', 'Y', 'S', 'I', 'A', '#', '#', 'B', '#', '#', '#', '#', '#', '#'],
-        ['#','#', 'I', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'L', '#', '#', '#', '#', '#', '#'],
-        ['#','#', 'T', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#'],
-        ['#','#', 'H', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'W', '#', '#', '#', '#', '#', '#'],
-        ['#','#', 'I', '#', '#', '#', '#', '#', '#', '#', '#', 'T', 'A', 'N', 'K', 'A', 'R', 'D', '#'],
-        ['#','#', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'R', '#', '#', '#', '#', '#', '#'],
-        ['#','#', 'G', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#'],
-        ['#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#']
-    ];
+    <script>
+        let userName = "";
 
-    const answers = {
-        horizontal: { 1: "YONGKOON", 2: "BRITISH", 3: "MALAYSIA", 4: "HERITAGE", 5: "TANKARD" },
-        vertical: { 1: "NGEOKFOH", 2: "1885", 3: "PEWTER", 4: "PEWTERSMITHING", 5: "TABLEWARE" }
-    };
+        const crossword = [
+            ['#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#','#', '#', '#', '#', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#','#', 'Y', 'O', 'N', 'G', 'K', 'O', 'O', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#','1', 'P', '#', '#', 'E', '#', '#', '#', '#', 'P', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#','8', 'E', '#', '#', 'O', '#', '#', '#', 'H', 'E', 'R', 'I', 'T', 'A', 'G', 'E', '#', '#'],
+            ['#','8', 'W', '#', '#', 'K', '#', '#', '#', '#', 'W', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#','5', 'T', '#', '#', 'F', '#', '#', '#', '#', 'T', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#','#', 'E', '#', '#', 'O', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#', '#', '#'],
+            ['#','#', 'R', '#', '#', 'H', '#', '#', '#', 'B', 'R', 'I', 'T', 'I', 'S', 'H', '#', '#', '#'],
+            ['#','#', 'S', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'A', '#', '#', '#', '#', '#', '#'], 
+            ['#','#', 'M', 'A', 'L', 'A', 'Y', 'S', 'I', 'A', '#', '#', 'B', '#', '#', '#', '#', '#', '#'],
+            ['#','#', 'I', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'L', '#', '#', '#', '#', '#', '#'],
+            ['#','#', 'T', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#'],
+            ['#','#', 'H', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'W', '#', '#', '#', '#', '#', '#'],
+            ['#','#', 'I', '#', '#', '#', '#', '#', '#', '#', '#', 'T', 'A', 'N', 'K', 'A', 'R', 'D', '#'],
+            ['#','#', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'R', '#', '#', '#', '#', '#', '#'],
+            ['#','#', 'G', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#'],
+            ['#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#']
+        ];
 
-    const numberPositions = {
-        '1-horizontal': [2, 2],   // "YONGKOON"
-        '2-horizontal': [8, 9],   // "BRITISH"
-        '3-horizontal': [10, 2],  // "MALAYSIA"
-        '4-horizontal': [4, 9],   // "HERITAGE"
-        '5-horizontal': [14, 11], // "TANKARD"
-        '1-vertical': [1, 5],     // "NGEOKFOH"
-        '2-vertical': [3, 1],     // "1885"
-        '3-vertical': [3, 10],    // "PEWTER"
-        '4-vertical': [3, 2],     // "PEWTERSMITHING"
-        '5-vertical': [8, 12]     // "TABLEWARE"
-    };
+        const answers = {
+            horizontal: { 1: "YONGKOON", 2: "BRITISH", 3: "MALAYSIA", 4: "HERITAGE", 5: "TANKARD" },
+            vertical: { 1: "NGEOKFOH", 2: "1885", 3: "PEWTER", 4: "PEWTERSMITHING", 5: "TABLEWARE" }
+        };
 
-    const preFilled = [];
+        const numberPositions = {
+            '1-horizontal': [2, 2],   // "YONGKOON"
+            '2-horizontal': [8, 9],   // "BRITISH"
+            '3-horizontal': [10, 2],  // "MALAYSIA"
+            '4-horizontal': [4, 9],   // "HERITAGE"
+            '5-horizontal': [14, 11], // "TANKARD"
+            '1-vertical': [1, 5],     // "NGEOKFOH"
+            '2-vertical': [3, 1],     // "1885"
+            '3-vertical': [3, 10],    // "PEWTER"
+            '4-vertical': [3, 2],     // "PEWTERSMITHING"
+            '5-vertical': [8, 12]     // "TABLEWARE"
+        };
 
-    window.onload = function() {
-        showNameModal();
-    };
+        const preFilled = [];
 
-    function showNameModal() {
-        const modal = document.getElementById("nameModal");
-        modal.style.display = "flex";
-        document.getElementById("userNameInput").focus();
-    }
+        window.onload = function() {
+            showNameModal();
+        };
 
-    function submitName() {
-        const input = document.getElementById("userNameInput").value.trim();
-        if (input === "") {
-            alert("Please enter your name to start playing!");
-            return;
+        function showNameModal() {
+            const modal = document.getElementById("nameModal");
+            modal.style.display = "flex";
+            document.getElementById("userNameInput").focus();
         }
-        userName = input;
-        document.getElementById("welcome-title").textContent = `Welcome ${userName}, This is Pewter 140 Challenge`;
-        document.getElementById("nameModal").style.display = "none";
-        createAnswerGrid();
-    }
 
-    document.getElementById("userNameInput")?.addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            submitName();
-        }
-    });
-
-    function createAnswerGrid() {
-        const grid = document.getElementById("answer-grid");
-        grid.innerHTML = "";
-
-        for (let row = 0; row < 18; row++) {
-            for (let col = 0; col < 19; col++) {
-                const cell = document.createElement("div");
-                cell.classList.add("cell");
-                const value = crossword[row][col];
-
-                if (value === '#') {
-                    cell.classList.add("black");
-                } else {
-                    let number = null;
-                    for (const key in numberPositions) {
-                        const [numRow, numCol] = numberPositions[key];
-                        if (row === numRow && col === numCol) {
-                            number = key.split('-')[0];
-                            break;
-                        }
-                    }
-                    if (number) {
-                        const numberSpan = document.createElement("span");
-                        numberSpan.classList.add("cell-number");
-                        numberSpan.textContent = number;
-                        cell.appendChild(numberSpan);
-                    }
-                    const input = document.createElement("input");
-                    input.maxLength = 1;
-                    input.dataset.row = row;
-                    input.dataset.col = col;
-
-                    const isPreFilled = preFilled.some(([r, c, v]) => r === row && c === col);
-                    if (isPreFilled) {
-                        const preFilledValue = preFilled.find(([r, c]) => r === row && c === col)[2];
-                        input.value = preFilledValue;
-                        input.disabled = true;
-                    }
-                    cell.appendChild(input);
-                }
-                grid.appendChild(cell);
+        function submitName() {
+            const input = document.getElementById("userNameInput").value.trim();
+            if (input === "") {
+                alert("Please enter your name to join the celebration!");
+                return;
             }
+            userName = input;
+            document.getElementById("welcome-title").innerHTML = `Welcome ${userName}<br>Royal Selangor’s 140th Anniversary Crossword`;
+            document.getElementById("nameModal").style.display = "none";
+            createAnswerGrid();
         }
-    }
 
-    function getWordFromGrid(startPos, length, direction) {
-        const [startRow, startCol] = startPos;
-        let word = "";
-        for (let i = 0; i < length; i++) {
-            const row = direction === "horizontal" ? startRow : startRow + i;
-            const col = direction === "horizontal" ? startCol + i : startCol;
-            const input = document.querySelector(`#answer-grid .cell input[data-row="${row}"][data-col="${col}"]`);
-            word += input ? (input.value.toUpperCase() || "") : "";
-        }
-        return word;
-    }
-
-    function submitAnswers() {
-        let userAnswers = {};
-        let isCorrect = true;
-
-        // Check horizontal answers
-        for (let h in answers.horizontal) {
-            const word = getWordFromGrid(numberPositions[`${h}-horizontal`], answers.horizontal[h].length, "horizontal");
-            userAnswers[`horizontal-${h}`] = word;
-            if (word !== answers.horizontal[h]) {
-                isCorrect = false;
+        document.getElementById("userNameInput")?.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                submitName();
             }
-        }
-
-        // Check vertical answers
-        for (let v in answers.vertical) {
-            const word = getWordFromGrid(numberPositions[`${v}-vertical`], answers.vertical[v].length, "vertical");
-            userAnswers[`vertical-${v}`] = word;
-            if (word !== answers.vertical[v]) {
-                isCorrect = false;
-            }
-        }
-
-        // Format user answers for submission
-        const formattedAnswers = JSON.stringify(userAnswers);
-
-        // Google Form submission URL (corrected to formResponse)
-        const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdYV1z5rhzRCQ0h1aqZMwLi6dcbKaVpSA6HCHcxlnEHki4qBg/formResponse";
-        const formData = new FormData();
-        formData.append("entry.315125601", userName); // Name field
-        formData.append("entry.503290548", formattedAnswers); // Answers field
-        formData.append("entry.728466352", isCorrect ? "Correct" : "Incorrect"); // Correctness field
-
-        fetch(formUrl, {
-            method: "POST",
-            mode: "no-cors",
-            body: formData
-        }).then(() => {
-            const container = document.getElementById("game-container");
-            container.innerHTML = `
-                <h1>Thank You, ${userName}!</h1>
-                <p style="font-size: 18px; color: #4b5563;">Your answers have been submitted successfully. We appreciate your participation in the Crossword Odyssey!</p>
-            `;
-        }).catch(() => {
-            alert("Submission failed. Please try again.");
         });
-    }
-</script>
+
+        function createAnswerGrid() {
+            const grid = document.getElementById("answer-grid");
+            grid.innerHTML = "";
+
+            for (let row = 0; row < 18; row++) {
+                for (let col = 0; col < 19; col++) {
+                    const cell = document.createElement("div");
+                    cell.classList.add("cell");
+                    const value = crossword[row][col];
+
+                    if (value === '#') {
+                        cell.classList.add("black");
+                    } else {
+                        let number = null;
+                        for (const key in numberPositions) {
+                            const [numRow, numCol] = numberPositions[key];
+                            if (row === numRow && col === numCol) {
+                                number = key.split('-')[0];
+                                break;
+                            }
+                        }
+                        if (number) {
+                            const numberSpan = document.createElement("span");
+                            numberSpan.classList.add("cell-number");
+                            numberSpan.textContent = number;
+                            cell.appendChild(numberSpan);
+                        }
+                        const input = document.createElement("input");
+                        input.maxLength = 1;
+                        input.dataset.row = row;
+                        input.dataset.col = col;
+
+                        const isPreFilled = preFilled.some(([r, c, v]) => r === row && c === col);
+                        if (isPreFilled) {
+                            const preFilledValue = preFilled.find(([r, c]) => r === row && c === col)[2];
+                            input.value = preFilledValue;
+                            input.disabled = true;
+                        }
+                        cell.appendChild(input);
+                    }
+                    grid.appendChild(cell);
+                }
+            }
+        }
+
+        function getWordFromGrid(startPos, length, direction) {
+            const [startRow, startCol] = startPos;
+            let word = "";
+            for (let i = 0; i < length; i++) {
+                const row = direction === "horizontal" ? startRow : startRow + i;
+                const col = direction === "horizontal" ? startCol + i : startCol;
+                const input = document.querySelector(`#answer-grid .cell input[data-row="${row}"][data-col="${col}"]`);
+                word += input ? (input.value.toUpperCase() || "") : "";
+            }
+            return word;
+        }
+
+        function submitAnswers() {
+            let userAnswers = {};
+            let isCorrect = true;
+
+            for (let h in answers.horizontal) {
+                const word = getWordFromGrid(numberPositions[`${h}-horizontal`], answers.horizontal[h].length, "horizontal");
+                userAnswers[`horizontal-${h}`] = word;
+                if (word !== answers.horizontal[h]) {
+                    isCorrect = false;
+                }
+            }
+
+            for (let v in answers.vertical) {
+                const word = getWordFromGrid(numberPositions[`${v}-vertical`], answers.vertical[v].length, "vertical");
+                userAnswers[`vertical-${v}`] = word;
+                if (word !== answers.vertical[v]) {
+                    isCorrect = false;
+                }
+            }
+
+            const formattedAnswers = JSON.stringify(userAnswers);
+            const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdYV1z5rhzRCQ0h1aqZMwLi6dcbKaVpSA6HCHcxlnEHki4qBg/formResponse";
+            const formData = new FormData();
+            formData.append("entry.315125601", userName);
+            formData.append("entry.503290548", formattedAnswers);
+            formData.append("entry.728466352", isCorrect ? "Correct" : "Incorrect");
+
+            fetch(formUrl, {
+                method: "POST",
+                mode: "no-cors",
+                body: formData
+            }).then(() => {
+                const container = document.getElementById("game-container");
+                container.innerHTML = `
+                    <h1>Congratulations, ${userName}!</h1>
+                    <p style="font-size: 18px; color: #4b4b4b; text-align: center;">
+                        Your answers have been submitted. Thank you for celebrating Royal Selangor’s 140th Anniversary with us!
+                    </p>
+                `;
+            }).catch(() => {
+                alert("Submission failed. Please try again.");
+            });
+        }
+    </script>
+</body>
+</html>
