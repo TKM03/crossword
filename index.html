@@ -21,7 +21,7 @@
             background: #fff;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            max-width: 1200px; /* Increased slightly for wider layout */
+            max-width: 1200px;
             width: 100%;
             margin: 20px;
             animation: fadeIn 1s ease-out;
@@ -42,19 +42,19 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            flex-wrap: wrap;
+            flex-wrap: nowrap; /* Changed from wrap to nowrap to enforce horizontal layout */
             gap: 20px;
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(19, clamp(22px, 3.5vw, 32px)); /* Updated to 19 columns */
+            grid-template-columns: repeat(19, clamp(22px, 3.5vw, 32px));
             gap: 3px;
             background: #f5f6f5;
             padding: 10px;
             border-radius: 10px;
             border: 2px solid #1e3c72;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            order: 2; /* Center position */
+            order: 2;
         }
         .cell {
             width: clamp(22px, 3.5vw, 32px);
@@ -198,7 +198,7 @@
                 align-items: center;
             }
             .grid {
-                grid-template-columns: repeat(19, 22px); /* Updated for 19 columns */
+                grid-template-columns: repeat(19, 22px);
                 margin: 0 auto;
             }
             .clues {
@@ -333,8 +333,8 @@
             const grid = document.getElementById("answer-grid");
             grid.innerHTML = "";
 
-            for (let row = 0; row < 18; row++) { // Updated to 18 rows
-                for (let col = 0; col < 19; col++) { // Updated to 19 columns
+            for (let row = 0; row < 18; row++) {
+                for (let col = 0; col < 19; col++) {
                     const cell = document.createElement("div");
                     cell.classList.add("cell");
                     const value = crossword[row][col];
