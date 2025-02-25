@@ -42,8 +42,14 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            flex-wrap: nowrap; /* Changed from wrap to nowrap to enforce horizontal layout */
+            flex-wrap: wrap; /* Default to wrap, adjusted below for desktop */
             gap: 20px;
+        }
+        /* Ensure horizontal layout on desktop */
+        @media (min-width: 769px) {
+            .content-wrapper {
+                flex-wrap: nowrap;
+            }
         }
         .grid {
             display: grid;
