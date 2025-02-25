@@ -396,11 +396,11 @@
                 }
             });
 
-            const formUrl = "https://docs.google.com/spreadsheets/d/1ad-DkKtK_dl95xUu1DkPlG9wYSxl_KHrj13ApiLfobY/edit?usp=sharing"; 
+            const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdYV1z5rhzRCQ0h1aqZMwLi6dcbKaVpSA6HCHcxlnEHki4qBg/viewform?pli=1"; 
             const formData = new FormData();
-            formData.append("B2", userName); 
-            formData.append("C2", userAnswers); 
-            formData.append("D2", isCorrect ? "Correct" : "Incorrect"); 
+            formData.append("entry.315125601", userName); 
+            formData.append("entry.503290548", userAnswers); 
+            formData.append("entry.728466352", isCorrect ? "Correct" : "Incorrect"); 
 
             fetch(formUrl, {
                 method: "POST",
