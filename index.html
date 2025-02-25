@@ -1,425 +1,176 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Crossword Odyssey</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            min-height: 100vh;
-            color: #333;
-            overflow-x: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #game-container {
-            padding: 20px;
-            background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            max-width: 1200px;
-            width: 100%;
-            margin: 20px;
-            animation: fadeIn 1s ease-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        h1 {
-            font-size: 2.2em;
-            color: #1e3c72;
-            margin-bottom: 20px;
-            font-family: 'Roboto', sans-serif;
-            font-weight: 700;
-            text-align: center;
-        }
-        .content-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            flex-wrap: wrap; /* Default to wrap, adjusted below for desktop */
-            gap: 20px;
-        }
-        /* Ensure horizontal layout on desktop */
-        @media (min-width: 769px) {
-            .content-wrapper {
-                flex-wrap: nowrap;
-            }
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(19, clamp(22px, 3.5vw, 32px));
-            gap: 3px;
-            background: #f5f6f5;
-            padding: 10px;
-            border-radius: 10px;
-            border: 2px solid #1e3c72;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            order: 2;
-        }
-        .cell {
-            width: clamp(22px, 3.5vw, 32px);
-            height: clamp(22px, 3.5vw, 32px);
-            border: 1px solid #d1d5db;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fff;
-            font-size: clamp(12px, 1.8vw, 16px);
-            font-weight: 600;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-            position: relative;
-        }
-        .cell:hover {
-            background: #e5e7eb;
-        }
-        .cell.black {
-            background: #1e3c72;
-            border: none;
-        }
-        .cell input {
-            width: 100%;
-            height: 100%;
-            border: none;
-            text-align: center;
-            font-size: clamp(12px, 1.8vw, 16px);
-            text-transform: uppercase;
-            background: transparent;
-            color: #1e3c72;
-            font-family: 'Arial', sans-serif;
-        }
-        .cell input:focus {
-            background: #2a5298;
-            color: #fff;
-            outline: none;
-            border-radius: 4px;
-        }
-        .cell input:disabled {
-            background: #d1d5db;
-            color: #4b5563;
-            cursor: not-allowed;
-        }
-        .cell-number {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            font-size: clamp(8px, 1.2vw, 10px);
-            color: #4b5563;
-            font-weight: 400;
-        }
-        .clues {
-            flex: 1;
-            min-width: 250px;
-            background: #f9fafb;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            color: #1e3c72;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        .clues.horizontal {
-            order: 1; /* Left position */
-        }
-        .clues.vertical {
-            order: 3; /* Right position */
-        }
-        .clues h3 {
-            font-family: 'Roboto', sans-serif;
-            font-weight: 600;
-            color: #2a5298;
-            margin-bottom: 10px;
-            font-size: 1.3em;
-            border-bottom: 2px solid #1e3c72;
-            padding-bottom: 5px;
-        }
-        button {
-            padding: 10px 25px;
-            margin-top: 20px;
-            background: #2a5298;
-            color: #fff;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        button:hover {
-            background: #1e3c72;
-            transform: translateY(-2px);
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            width: 90%;
-            max-width: 350px;
-        }
-        .modal-content h2 {
-            font-family: 'Roboto', sans-serif;
-            color: #1e3c72;
-            margin-bottom: 15px;
-            font-size: 1.8em;
-            font-weight: 600;
-        }
-        .modal-content input {
-            width: 80%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 2px solid #d1d5db;
-            border-radius: 5px;
-            font-size: 16px;
-            font-family: 'Arial', sans-serif;
-        }
-        .modal-content button {
-            background: #2a5298;
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-        @media (max-width: 768px) {
-            .content-wrapper {
-                flex-direction: column;
-                align-items: center;
-            }
-            .grid {
-                grid-template-columns: repeat(19, 22px);
-                margin: 0 auto;
-            }
-            .clues {
-                width: 100%;
-                max-width: none;
-                font-size: 13px;
-            }
-            h1 {
-                font-size: 1.8em;
-            }
-            button {
-                width: 100%;
-                max-width: 200px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div id="game-container">
-        <h1 id="welcome-title">Crossword Puzzle</h1>
-        <div class="content-wrapper">
-            <div class="clues horizontal">
-                <h3>Horizontal</h3>
-                <p>
-                    1. Who founded Royal Selangor? <br>
-                    <br>
-                    2. What colonial group influenced Royal Selangor’s early products? <br>
-                    <br>
-                    3. In which country did Royal Selangor start? <br>
-                    <br>
-                    4. What inspires Royal Selangor’s designs? <br>
-                    <br>
-                    5. What is Royal Selangor’s signature drinkware?
-                </p>
-            </div>
-            <div class="grid" id="answer-grid"></div>
-            <div class="clues vertical">
-                <h3>Vertical</h3>
-                <p>
-                    1. What was Royal Selangor’s original shop name? <br>
-                    <br>
-                    2. When was Royal Selangor International Sdn Bhd founded? <br>
-                    <br>
-                    3. What material defines Royal Selangor? <br>
-                    <br>
-                    4. What type of craftsmanship is Royal Selangor famous for? <br>
-                    <br>
-                    5. What type of decorative items does Royal Selangor make?
-                </p>
-            </div>
-        </div>
-        <button onclick="submitAnswers()">Submit</button>
-    </div>
+<script>
+    let userName = "";
 
-    <div id="nameModal" class="modal">
-        <div class="modal-content">
-            <h2>Enter Your Name</h2>
-            <input type="text" id="userNameInput" placeholder="Your name here">
-            <button onclick="submitName()">Start Playing</button>
-        </div>
-    </div>
+    const crossword = [
+        ['#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+        ['#','#', '#', '#', '#', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+        ['#','#', 'Y', 'O', 'N', 'G', 'K', 'O', 'O', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+        ['#','1', 'P', '#', '#', 'E', '#', '#', '#', '#', 'P', '#', '#', '#', '#', '#', '#', '#', '#'],
+        ['#','8', 'E', '#', '#', 'O', '#', '#', '#', 'H', 'E', 'R', 'I', 'T', 'A', 'G', 'E', '#', '#'],
+        ['#','8', 'W', '#', '#', 'K', '#', '#', '#', '#', 'W', '#', '#', '#', '#', '#', '#', '#', '#'],
+        ['#','5', 'T', '#', '#', 'F', '#', '#', '#', '#', 'T', '#', '#', '#', '#', '#', '#', '#', '#'],
+        ['#','#', 'E', '#', '#', 'O', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#', '#', '#'],
+        ['#','#', 'R', '#', '#', 'H', '#', '#', '#', 'B', 'R', 'I', 'T', 'I', 'S', 'H', '#', '#', '#'],
+        ['#','#', 'S', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'A', '#', '#', '#', '#', '#', '#'], 
+        ['#','#', 'M', 'A', 'L', 'A', 'Y', 'S', 'I', 'A', '#', '#', 'B', '#', '#', '#', '#', '#', '#'],
+        ['#','#', 'I', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'L', '#', '#', '#', '#', '#', '#'],
+        ['#','#', 'T', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#'],
+        ['#','#', 'H', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'W', '#', '#', '#', '#', '#', '#'],
+        ['#','#', 'I', '#', '#', '#', '#', '#', '#', '#', '#', 'T', 'A', 'N', 'K', 'A', 'R', 'D', '#'],
+        ['#','#', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'R', '#', '#', '#', '#', '#', '#'],
+        ['#','#', 'G', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#'],
+        ['#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#']
+    ];
 
-    <script>
-        let userName = "";
+    const answers = {
+        horizontal: { 1: "YONGKOON", 2: "BRITISH", 3: "MALAYSIA", 4: "HERITAGE", 5: "TANKARD" },
+        vertical: { 1: "NGEOKFOH", 2: "1885", 3: "PEWTER", 4: "PEWTERSMITHING", 5: "TABLEWARE" }
+    };
 
-        const crossword = [
-            ['#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#','#', '#', '#', '#', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#','#', 'Y', 'O', 'N', 'G', 'K', 'O', 'O', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#','1', 'P', '#', '#', 'E', '#', '#', '#', '#', 'P', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#','8', 'E', '#', '#', 'O', '#', '#', '#', 'H', 'E', 'R', 'I', 'T', 'A', 'G', 'E', '#', '#'],
-            ['#','8', 'W', '#', '#', 'K', '#', '#', '#', '#', 'W', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#','5', 'T', '#', '#', 'F', '#', '#', '#', '#', 'T', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#','#', 'E', '#', '#', 'O', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#', '#', '#'],
-            ['#','#', 'R', '#', '#', 'H', '#', '#', '#', 'B', 'R', 'I', 'T', 'I', 'S', 'H', '#', '#', '#'],
-            ['#','#', 'S', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'A', '#', '#', '#', '#', '#', '#'], 
-            ['#','#', 'M', 'A', 'L', 'A', 'Y', 'S', 'I', 'A', '#', '#', 'B', '#', '#', '#', '#', '#', '#'],
-            ['#','#', 'I', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'L', '#', '#', '#', '#', '#', '#'],
-            ['#','#', 'T', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#'],
-            ['#','#', 'H', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'W', '#', '#', '#', '#', '#', '#'],
-            ['#','#', 'I', '#', '#', '#', '#', '#', '#', '#', '#', 'T', 'A', 'N', 'K', 'A', 'R', 'D', '#'],
-            ['#','#', 'N', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'R', '#', '#', '#', '#', '#', '#'],
-            ['#','#', 'G', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'E', '#', '#', '#', '#', '#', '#'],
-            ['#','#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#']
-        ];
+    const numberPositions = {
+        '1-horizontal': [2, 2],   // "YONGKOON"
+        '2-horizontal': [8, 9],   // "BRITISH"
+        '3-horizontal': [10, 2],  // "MALAYSIA"
+        '4-horizontal': [4, 9],   // "HERITAGE"
+        '5-horizontal': [14, 11], // "TANKARD"
+        '1-vertical': [1, 5],     // "NGEOKFOH"
+        '2-vertical': [3, 1],     // "1885"
+        '3-vertical': [3, 10],    // "PEWTER"
+        '4-vertical': [3, 2],     // "PEWTERSMITHING"
+        '5-vertical': [8, 12]     // "TABLEWARE"
+    };
 
-        const answers = {
-            horizontal: { 1: "YONGKOON", 2: "BRITISH", 3: "MALAYSIA", 4: "HERITAGE", 5: "TANKARD" },
-            vertical: { 1: "NGEOKFOH", 2: "1885", 3: "PEWTER", 4: "PEWTERSMITHING", 5: "TABLEWARE" }
-        };
+    const preFilled = [];
 
-        const numberPositions = {
-            '1-horizontal': [2, 2],   // "YONGKOON"
-            '2-horizontal': [8, 9],   // "BRITISH"
-            '3-horizontal': [10, 2],  // "MALAYSIA"
-            '4-horizontal': [4, 9],   // "HERITAGE"
-            '5-horizontal': [14, 11], // "TANKARD"
-            '1-vertical': [1, 5],     // "NGEOKFOH"
-            '2-vertical': [3, 1],     // "1885"
-            '3-vertical': [3, 10],    // "PEWTER"
-            '4-vertical': [3, 2],     // "PEWTERSMITHING"
-            '5-vertical': [8, 12]     // "TABLEWARE"
-        };
+    window.onload = function() {
+        showNameModal();
+    };
 
-        const preFilled = [];
+    function showNameModal() {
+        const modal = document.getElementById("nameModal");
+        modal.style.display = "flex";
+        document.getElementById("userNameInput").focus();
+    }
 
-        window.onload = function() {
-            showNameModal();
-        };
-
-        function showNameModal() {
-            const modal = document.getElementById("nameModal");
-            modal.style.display = "flex";
-            document.getElementById("userNameInput").focus();
+    function submitName() {
+        const input = document.getElementById("userNameInput").value.trim();
+        if (input === "") {
+            alert("Please enter your name to start playing!");
+            return;
         }
+        userName = input;
+        document.getElementById("welcome-title").textContent = `Welcome, ${userName}, to the Crossword Odyssey!`;
+        document.getElementById("nameModal").style.display = "none";
+        createAnswerGrid();
+    }
 
-        function submitName() {
-            const input = document.getElementById("userNameInput").value.trim();
-            if (input === "") {
-                alert("Please enter your name to start playing!");
-                return;
-            }
-            userName = input;
-            document.getElementById("welcome-title").textContent = `Welcome, ${userName}, to the Crossword Odyssey!`;
-            document.getElementById("nameModal").style.display = "none";
-            createAnswerGrid();
+    document.getElementById("userNameInput")?.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            submitName();
         }
+    });
 
-        document.getElementById("userNameInput")?.addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                submitName();
-            }
-        });
+    function createAnswerGrid() {
+        const grid = document.getElementById("answer-grid");
+        grid.innerHTML = "";
 
-        function createAnswerGrid() {
-            const grid = document.getElementById("answer-grid");
-            grid.innerHTML = "";
+        for (let row = 0; row < 18; row++) {
+            for (let col = 0; col < 19; col++) {
+                const cell = document.createElement("div");
+                cell.classList.add("cell");
+                const value = crossword[row][col];
 
-            for (let row = 0; row < 18; row++) {
-                for (let col = 0; col < 19; col++) {
-                    const cell = document.createElement("div");
-                    cell.classList.add("cell");
-                    const value = crossword[row][col];
-
-                    if (value === '#') {
-                        cell.classList.add("black");
-                    } else {
-                        let number = null;
-                        for (const key in numberPositions) {
-                            const [numRow, numCol] = numberPositions[key];
-                            if (row === numRow && col === numCol) {
-                                number = key.split('-')[0];
-                                break;
-                            }
+                if (value === '#') {
+                    cell.classList.add("black");
+                } else {
+                    let number = null;
+                    for (const key in numberPositions) {
+                        const [numRow, numCol] = numberPositions[key];
+                        if (row === numRow && col === numCol) {
+                            number = key.split('-')[0];
+                            break;
                         }
-                        if (number) {
-                            const numberSpan = document.createElement("span");
-                            numberSpan.classList.add("cell-number");
-                            numberSpan.textContent = number;
-                            cell.appendChild(numberSpan);
-                        }
-                        const input = document.createElement("input");
-                        input.maxLength = 1;
-                        input.dataset.row = row;
-                        input.dataset.col = col;
-
-                        const isPreFilled = preFilled.some(([r, c, v]) => r === row && c === col);
-                        if (isPreFilled) {
-                            const preFilledValue = preFilled.find(([r, c]) => r === row && c === col)[2];
-                            input.value = preFilledValue;
-                            input.disabled = true;
-                        }
-                        cell.appendChild(input);
                     }
-                    grid.appendChild(cell);
+                    if (number) {
+                        const numberSpan = document.createElement("span");
+                        numberSpan.classList.add("cell-number");
+                        numberSpan.textContent = number;
+                        cell.appendChild(numberSpan);
+                    }
+                    const input = document.createElement("input");
+                    input.maxLength = 1;
+                    input.dataset.row = row;
+                    input.dataset.col = col;
+
+                    const isPreFilled = preFilled.some(([r, c, v]) => r === row && c === col);
+                    if (isPreFilled) {
+                        const preFilledValue = preFilled.find(([r, c]) => r === row && c === col)[2];
+                        input.value = preFilledValue;
+                        input.disabled = true;
+                    }
+                    cell.appendChild(input);
                 }
+                grid.appendChild(cell);
+            }
+        }
+    }
+
+    function getWordFromGrid(startPos, length, direction) {
+        const [startRow, startCol] = startPos;
+        let word = "";
+        for (let i = 0; i < length; i++) {
+            const row = direction === "horizontal" ? startRow : startRow + i;
+            const col = direction === "horizontal" ? startCol + i : startCol;
+            const input = document.querySelector(`#answer-grid .cell input[data-row="${row}"][data-col="${col}"]`);
+            word += input ? (input.value.toUpperCase() || "") : "";
+        }
+        return word;
+    }
+
+    function submitAnswers() {
+        let userAnswers = {};
+        let isCorrect = true;
+
+        // Check horizontal answers
+        for (let h in answers.horizontal) {
+            const word = getWordFromGrid(numberPositions[`${h}-horizontal`], answers.horizontal[h].length, "horizontal");
+            userAnswers[`horizontal-${h}`] = word;
+            if (word !== answers.horizontal[h]) {
+                isCorrect = false;
             }
         }
 
-        function submitAnswers() {
-            const inputs = document.querySelectorAll("#answer-grid .cell input");
-            let userAnswers = "";
-            let isCorrect = true;
-
-            inputs.forEach(input => {
-                const row = parseInt(input.dataset.row);
-                const col = parseInt(input.dataset.col);
-                const userValue = input.value.toUpperCase() || "";
-                const correctValue = crossword[row][col];
-                userAnswers += `${row},${col}:${userValue};`;
-                if (userValue && userValue !== correctValue && !input.disabled) {
-                    isCorrect = false;
-                }
-            });
-
-            const formUrl = "https://docs.google.com/forms/u/2/d/e/1FAIpQLSdYV1z5rhzRCQ0h1aqZMwLi6dcbKaVpSA6HCHcxlnEHki4qBg/formResponse"; 
-            const formData = new FormData();
-            formData.append("entry.315125601", userName); 
-            formData.append("entry.503290548", userAnswers); 
-            formData.append("entry.728466352", isCorrect ? "Correct" : "Incorrect"); 
-
-            fetch(formUrl, {
-                method: "POST",
-                mode: "no-cors",
-                body: formData
-            }).then(() => {
-                const container = document.getElementById("game-container");
-                container.innerHTML = `
-                    <h1>Thank You, ${userName}!</h1>
-                    <p style="font-size: 18px; color: #4b5563;">Your answers have been submitted successfully. We appreciate your participation in the Crossword Odyssey!</p>
-                `;
-            }).catch(() => {
-                alert("Submission failed. Please try again.");
-            });
+        // Check vertical answers
+        for (let v in answers.vertical) {
+            const word = getWordFromGrid(numberPositions[`${v}-vertical`], answers.vertical[v].length, "vertical");
+            userAnswers[`vertical-${v}`] = word;
+            if (word !== answers.vertical[v]) {
+                isCorrect = false;
+            }
         }
-    </script>
-</body>
-</html>
+
+        // Format user answers for submission
+        const formattedAnswers = JSON.stringify(userAnswers);
+
+        // Google Form submission URL (corrected to formResponse)
+        const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdYV1z5rhzRCQ0h1aqZMwLi6dcbKaVpSA6HCHcxlnEHki4qBg/formResponse";
+        const formData = new FormData();
+        formData.append("entry.315125601", userName); // Name field
+        formData.append("entry.503290548", formattedAnswers); // Answers field
+        formData.append("entry.728466352", isCorrect ? "Correct" : "Incorrect"); // Correctness field
+
+        fetch(formUrl, {
+            method: "POST",
+            mode: "no-cors",
+            body: formData
+        }).then(() => {
+            const container = document.getElementById("game-container");
+            container.innerHTML = `
+                <h1>Thank You, ${userName}!</h1>
+                <p style="font-size: 18px; color: #4b5563;">Your answers have been submitted successfully. We appreciate your participation in the Crossword Odyssey!</p>
+            `;
+        }).catch(() => {
+            alert("Submission failed. Please try again.");
+        });
+    }
+</script>
