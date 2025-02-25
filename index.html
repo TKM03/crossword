@@ -323,7 +323,11 @@
 
         function submitName() {
             const input = document.getElementById("userNameInput").value.trim();
-            userName = input === "" ? "Anonymous" : input;
+            if (input === "") {
+                alert("Please enter your name to start playing!");
+                return;
+            }
+            userName = input;
             document.getElementById("welcome-title").textContent = `Welcome, ${userName}, to the Crossword Odyssey!`;
             document.getElementById("nameModal").style.display = "none";
             createAnswerGrid();
